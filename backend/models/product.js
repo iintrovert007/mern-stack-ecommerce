@@ -15,15 +15,15 @@ const productSchema = new mongoose.Schema(
             default: 0.0
         },
         description: {
-            type: Number,
+            type: String,
             required: [true, 'Please enter product description'],
         },
         ratings: {
-            type: String,
+            type: Number,
             default: 0
         },
         images: [{
-            filename:{
+            image:{
                 type: String,
                 required: true
             }
@@ -33,9 +33,10 @@ const productSchema = new mongoose.Schema(
             required: [true, 'Please enter product category for this product'],
             enum:{
                 values:[
+                    "Mobile Phones",
                     'Electronics',
                     'Cameras',
-                    'Laptop',
+                    'Laptops',
                     'Accessories',
                     'Headphones',
                     'Food',
@@ -56,7 +57,7 @@ const productSchema = new mongoose.Schema(
         stock: {
             type: String,
             required: [true, 'Please enter product stock'],
-            maxLength: [5, 'Product stock cannot exceed 5'],
+            maxLength: [10, 'Product stock cannot exceed 5'],
             default: 0
         },
         numOfReviews: {
