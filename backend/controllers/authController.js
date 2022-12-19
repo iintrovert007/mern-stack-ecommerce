@@ -3,8 +3,10 @@ const User = require('../models/userModel');
 const sendEmail = require('../utils/email');
 const ErrorHandler = require('../utils/errorHandler');
 const sendToken = require('../utils/jwt');
-const crypto = require('crypto')
+const crypto = require('crypto');
+const { findById } = require('../models/userModel');
 
+//Register -  /api/v1/register
 exports.registerUser = catchAsyncError(async (req, res, next) => {
     const {name, email, password, avatar} = req.body
     const user = await User.create({
@@ -18,6 +20,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
 
 })
 
+//Login - /api/v1/login
 exports.loginUser = catchAsyncError(async (req, res, next) => {
     const {email, password} =  req.body
 
@@ -40,6 +43,7 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
     
 })
 
+//Logout - /api/v1/logout
 exports.logoutUser = (req, res, next) => {
         res.cookie('token',null, {
             expires: new Date(Date.now()),
@@ -53,6 +57,7 @@ exports.logoutUser = (req, res, next) => {
 
 }
 
+//Forgot Password - /api/v1/password/forgot
 exports.forgotPassword = catchAsyncError( async (req, res, next)=>{
     const user =  await User.findOne({email: req.body.email});
 
@@ -90,6 +95,7 @@ exports.forgotPassword = catchAsyncError( async (req, res, next)=>{
 
 })  
 
+//Reset Password - /api/v1/password/reset/:token
 exports.resetPassword = catchAsyncError( async (req, res, next) => {
    const resetPasswordToken =  crypto.createHash('sha256').update(req.params.token).digest('hex'); 
 
@@ -115,3 +121,14 @@ exports.resetPassword = catchAsyncError( async (req, res, next) => {
     sendToken(user, 201, res)
 
 })
+
+//Get User Profile
+exports.getUserProfile = async (req, res, next) => {
+    console.log(req.user);
+    const user = await User.findById(req.user.id);
+    
+    res.status(200).json({
+        success: true,
+        user
+    })
+}
