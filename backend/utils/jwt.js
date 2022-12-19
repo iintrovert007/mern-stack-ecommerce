@@ -10,13 +10,14 @@ const sendToken = (user, statusCode, res) => {
             ),
         httpOnly: true,
     }
-
+    let copyUser ={...user._doc};
+    delete copyUser['password'];
     res.status(statusCode)
     .cookie('token', token, options)
     .json({
         success: true,
         token,
-        user
+        user: copyUser
     })
 
 

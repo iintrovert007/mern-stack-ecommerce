@@ -5,6 +5,8 @@ const ErrorHandler = require('../utils/errorHandler');
 const sendToken = require('../utils/jwt');
 const crypto = require('crypto');
 const { findById } = require('../models/userModel');
+const { use } = require('../routes/auth');
+const { send } = require('process');
 
 //Register -  /api/v1/register
 exports.registerUser = catchAsyncError(async (req, res, next) => {
@@ -127,8 +129,18 @@ exports.getUserProfile = async (req, res, next) => {
     console.log(req.user);
     const user = await User.findById(req.user.id);
     
-    res.status(200).json({
-        success: true,
-        user
-    })
+    sendToken(user, 201, res)
+}
+
+//Change Password
+exports.changePassword = async (req, res, next) => {
+    const user = await User.findById(req.user.id).select('+password');
+    //check old password 
+    if(!await user.isValidPassword(req.body.oldPassword)){
+        return next(new ErrorHandler('Old password is incorrect',401))
+    }
+    console.log('test');
+    user.password = req.body.password;
+    await user.save();
+    sendToken(user, 201, res)
 }
