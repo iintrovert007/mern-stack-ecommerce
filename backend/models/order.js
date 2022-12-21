@@ -29,7 +29,7 @@ const orderSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    orderItems: {
+    orderItems: [{
         name: {
             type: String,
             required: true
@@ -55,7 +55,7 @@ const orderSchema = new mongoose.Schema({
             required: true,
             ref: 'product'
         }
-    },
+    }],
     paymentInfo: {
         id: {
             type: String
@@ -93,12 +93,13 @@ const orderSchema = new mongoose.Schema({
     ,
     orderStatus: {
         type: String,
-        required: true
+        required: true,
+        default: 'Processing'
     },
     createdAt: {
         type: String,
         default: Date.now
     }
 })
-
-module.exports = mongoose.model('Order', orderSchema)
+ let orderModel = mongoose.model('Order', orderSchema)
+module.exports = orderModel;
