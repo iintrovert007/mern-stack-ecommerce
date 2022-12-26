@@ -111,13 +111,46 @@ exports.createProductReview = catchAsyncError( async (req, res, next) => {
         product.reviews.push(review)
         product.numOfReviews = product.reviews.length;
     }
-    console.log(product.reviews )
+
     product.ratings = product.reviews.reduce((acc, review)=>{
         return review.rating + acc 
     },0) / product.reviews.length;
-
     await product.save({validateBeforeSave: false});
     res.status(200).json({
         success: true
     })
 })
+
+//Get Product Reviews
+exports.getProductReviews = catchAsyncError(async (req, res, next) => {
+    const product = await Product.findById(req.query.id);
+
+    res.status(200).json({
+        success: true,
+        reviews: product.reviews
+    })
+})
+
+//Delete Review
+exports.deleteReview =  catchAsyncError(async (req, res, next) => {
+    const product = await Product.findById(req.query.productId);
+
+    const reviews = product.reviews.filter(review => review._id.toString() !== req.query.id.toString())
+    const numOfReviews = reviews.length;
+    let ratings = reviews.reduce((acc, review)=>{
+        return review.rating + acc 
+    },0) / reviews.length;
+    ratings = isNaN(ratings)?0:ratings;
+    console.log(ratings,reviews);
+    await Product.findByIdAndUpdate(req.query.productId, {
+        reviews,
+        numOfReviews,
+        ratings
+    });
+
+    res.status(200).json({
+        success: true,
+    })
+})
+
+
