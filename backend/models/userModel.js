@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto')
 
@@ -50,8 +50,8 @@ userSchema.methods.getJwtToken = function(){
     })
 }
 
-userSchema.methods.isValidPassword = function(enteredPassword){
-    return bcrypt.compare(enteredPassword, this.password)
+userSchema.methods.isValidPassword = async function(enteredPassword){
+    return  bcrypt.compare(enteredPassword, this.password)
 }
 
 userSchema.methods.getResetToken = function(){

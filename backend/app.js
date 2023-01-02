@@ -8,11 +8,11 @@ app.use(cookieParser());
 
 const products = require('./routes/product')
 const auth = require('./routes/auth')
-const orders = require('./routes/order')
+const order = require('./routes/order')
 
 app.use('/api/v1/',products);
 app.use('/api/v1/',auth);
-app.use('/api/v1/',orders);
+app.use('/api/v1/',order);
 
 app.use(errorMiddleware)
 

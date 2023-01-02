@@ -1,33 +1,24 @@
 {
-  "name": "mern-stack-ecommerce",
+  "name": "jvlcart",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "ecommerce using MERN stack",
+  "main": "server.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "set NODE_ENV=development&nodemon backend/server",
-    "prod": "set NODE_ENV=production&&nodemon backend/server",
+    "start": "nodemon backend/server.js",
+    "dev": "set NODE_ENV=development&&nodemon backend/server.js",
+    "prod": "set NODE_ENV=production&&nodemon backend/server.js",
     "seeder": "node backend/utils/seeder.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jvlcode/mern-stack-ecommerce.git"
-  },
-  "keywords": [],
-  "author": "",
+  "author": "JV Logesh",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jvlcode/mern-stack-ecommerce/issues"
-  },
-  "homepage": "https://github.com/jvlcode/mern-stack-ecommerce#readme",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.7.3",
+    "mongoose": "^6.8.0",
     "nodemailer": "^6.8.0",
     "validator": "^13.7.0"
   },

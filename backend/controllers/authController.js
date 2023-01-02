@@ -3,12 +3,9 @@ const User = require('../models/userModel');
 const sendEmail = require('../utils/email');
 const ErrorHandler = require('../utils/errorHandler');
 const sendToken = require('../utils/jwt');
-const crypto = require('crypto');
-const { findById, findByIdAndUpdate } = require('../models/userModel');
-const { use } = require('../routes/auth');
-const { send } = require('process');
+const crypto = require('crypto')
 
-//Register -  /api/v1/register
+//Register User - /api/v1/register
 exports.registerUser = catchAsyncError(async (req, res, next) => {
     const {name, email, password, avatar} = req.body
     const user = await User.create({
@@ -22,7 +19,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
 
 })
 
-//Login - /api/v1/login
+//Login User - /api/v1/login
 exports.loginUser = catchAsyncError(async (req, res, next) => {
     const {email, password} =  req.body
 
@@ -124,32 +121,35 @@ exports.resetPassword = catchAsyncError( async (req, res, next) => {
 
 })
 
-//Get User Profile
+//Get User Profile - /api/v1/myprofile
 exports.getUserProfile = catchAsyncError(async (req, res, next) => {
-    console.log(req.user);
-    const user = await User.findById(req.user.id);
-    
-    sendToken(user, 201, res)
-});
-
-//Change Password
-exports.changePassword = catchAsyncError(async (req, res, next) => {
-    const user = await User.findById(req.user.id).select('+password');
-    //check old password 
-    if(!await user.isValidPassword(req.body.oldPassword)){
-        return next(new ErrorHandler('Old password is incorrect',401))
-    }
-    console.log('test');
-    user.password = req.body.password;
-    await user.save();
-    res.status(201).json({
-        success: true, 
-    })
+   const user = await User.findById(req.user.id)
+   res.status(200).json({
+        success:true,
+        user
+   })
 })
 
-exports.updateProfile = catchAsyncError(async (req, res, next) => {
+//Change Password  - api/v1/password/change
+exports.changePassword  = catchAsyncError(async (req, res, next) => {
+    const user = await User.findById(req.user.id).select('+password');
+    
+    //check old password
+    if(!await user.isValidPassword(req.body.oldPassword)) {
+        return next(new ErrorHandler('Old password is incorrect', 401));
+    }
 
-    const newUserData  = {
+    //assigning new password
+    user.password = req.body.password;
+    await user.save();
+    res.status(200).json({
+        success:true,
+    })
+ })
+
+//Update Profile - /api/v1/update
+exports.updateProfile = catchAsyncError(async (req, res, next) => {
+    const newUserData = {
         name: req.body.name,
         email: req.body.email
     }
@@ -159,38 +159,37 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
         runValidators: true,
     })
 
-
-    res.status(201).json({
-        success: true, 
-    })
-})
-
-//Admin: Get all users
-exports.getAllUsers = catchAsyncError(async (req, res, next) => {
-    const users = await User.find();
-    res.status(200).json({
-        success: true,
-        users
-    })
-});
-
-//Admin: Get specific user
-exports.getUser = catchAsyncError(async (req, res, next) => {
-    const user = await User.findById(req.params.id);
-    if(!user) {
-        return next(new Error('User not found'))
-    }
     res.status(200).json({
         success: true,
         user
     })
+
+})
+
+//Admin: Get All Users - /api/v1/admin/users
+exports.getAllUsers = catchAsyncError(async (req, res, next) => {
+   const users = await User.find();
+   res.status(200).json({
+        success: true,
+        users
+   })
+})
+
+//Admin: Get Specific User - api/v1/admin/user/:id
+exports.getUser = catchAsyncError(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+    if(!user) {
+        return next(new ErrorHandler(`User not found with this id ${req.params.id}`))
+    }
+    res.status(200).json({
+        success: true,
+        user
+   })
 });
 
-//Admin: Update user
-
+//Admin: Update User - api/v1/admin/user/:id
 exports.updateUser = catchAsyncError(async (req, res, next) => {
-
-    const newUserData  = {
+    const newUserData = {
         name: req.body.name,
         email: req.body.email,
         role: req.body.role
@@ -201,21 +200,20 @@ exports.updateUser = catchAsyncError(async (req, res, next) => {
         runValidators: true,
     })
 
-
-    res.status(201).json({
-        success: true, 
+    res.status(200).json({
+        success: true,
+        user
     })
 })
 
-//Admin: Delete User
+//Admin: Delete User - api/v1/admin/user/:id
 exports.deleteUser = catchAsyncError(async (req, res, next) => {
     const user = await User.findById(req.params.id);
     if(!user) {
-        return next(new Error('User not found'))
+        return next(new ErrorHandler(`User not found with this id ${req.params.id}`))
     }
-
     await user.remove();
-    res.status(201).json({
-        success: true, 
+    res.status(200).json({
+        success: true,
     })
 })

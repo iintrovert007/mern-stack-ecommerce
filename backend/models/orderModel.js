@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const orderSchema = new mongoose.Schema({
+const orderSchema = mongoose.Schema({
     shippingInfo: {
         address: {
             type: String,
@@ -21,8 +21,7 @@ const orderSchema = new mongoose.Schema({
         postalCode: {
             type: String,
             required: true
-        },
-        
+        }
     },
     user: {
         type: mongoose.SchemaTypes.ObjectId,
@@ -35,35 +34,24 @@ const orderSchema = new mongoose.Schema({
             required: true
         },
         quantity: {
-            type: String,
+            type: Number,
             required: true
         },
         image: {
             type: String,
             required: true
         },
-        quantity: {
-            type: String,
-            required: true
-        },
         price: {
-            type: String,
+            type: Number,
             required: true
         },
         product: {
             type: mongoose.SchemaTypes.ObjectId,
             required: true,
-            ref: 'product'
+            ref: 'Product'
         }
+
     }],
-    paymentInfo: {
-        id: {
-            type: String
-        },
-        status: {
-            type: String
-        }
-    },
     itemsPrice: {
         type: Number,
         required: true,
@@ -88,18 +76,19 @@ const orderSchema = new mongoose.Schema({
         type: Date
     },
     deliveredAt: {
-        type: Date,
-    }
-    ,
+        type: Date
+    },
     orderStatus: {
         type: String,
         required: true,
         default: 'Processing'
     },
     createdAt: {
-        type: String,
+        type: Date,
         default: Date.now
     }
 })
- let orderModel = mongoose.model('Order', orderSchema)
+
+let orderModel = mongoose.model('Order', orderSchema);
+
 module.exports = orderModel;
