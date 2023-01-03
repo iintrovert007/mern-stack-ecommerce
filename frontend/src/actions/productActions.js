@@ -7,11 +7,10 @@ export const getProducts = async (dispatch) => {
         const {data} = await axios.get('/api/v1/products');
         dispatch(allProductsSuccess(data))
     } catch (error) {
-        await axios.get('/api/v1/products');
         dispatch(allProductsFail({error: error.response.data.message}))
     }
 }
 
-export const clearProductErrors = () => {
+export const clearProductErrors = (dispatch) => {
     dispatch( clearErrors())
 }
