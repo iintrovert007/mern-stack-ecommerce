@@ -6,7 +6,12 @@
         "ratings": 4.5,
         "images": [
             {
-                "image": "images/products/1.jpg"
+                "image": "/images/products/1.jpg"
+                
+            },
+            {
+                "image": "/images/products/2.jpg"
+                
             }
         ],
         "category": "Mobile Phones",
@@ -22,7 +27,7 @@
         "ratings": 3.5,
         "images": [
             {
-                "image": "images/products/2.jpg"
+                "image": "/images/products/2.jpg"
             }
         ],
         "category": "Accessories",
@@ -38,7 +43,7 @@
         "ratings": 4,
         "images": [
             {
-                "image": "images/products/3.jpg"
+                "image": "/images/products/3.jpg"
             }
         ],
         "category": "Laptops",
@@ -54,7 +59,7 @@
         "ratings": 5,
         "images": [
             {
-                "image": "images/products/4.jpg"
+                "image": "/images/products/4.jpg"
             }
         ],
         "category": "Headphones",
@@ -70,7 +75,7 @@
         "ratings": 3,
         "images": [
             {
-                "image": "images/products/5.jpg"
+                "image": "/images/products/5.jpg"
             }
         ],
         "category": "Sports",

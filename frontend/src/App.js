@@ -4,7 +4,8 @@ import Footer from './components/layouts/Footer';
 import Header from './components/layouts/Header'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async';
-
+import ProductDetail from './components/product/ProductDetail';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
@@ -13,9 +14,13 @@ function App() {
       <div className="App">
         <HelmetProvider>
           <Header/>
-          <Routes>
-            <Route path='/' element={<Home/>} />
-          </Routes>
+          <ToastContainer theme="dark"/>
+          <div className='container container-fluid'>
+            <Routes>
+              <Route path='/' element={<Home/>} />
+              <Route path='/product/:id' element={<ProductDetail/>} exact />
+            </Routes>
+          </div>
           <Footer/>
         </HelmetProvider>
       </div>

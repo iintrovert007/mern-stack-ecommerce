@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit"
 const productsSlice = createSlice({
     name: 'products',
     initialState: {
-      products: []
+      products: [],
+      loading: false
     },
     reducers: {
       productsRequest(state, action) {
