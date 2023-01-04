@@ -1,16 +1,42 @@
-import { allProductsFail, allProductsRequest, allProductsSuccess, clearErrors } from "../slices/productsSlice"
+import { 
+    productFail,
+    productRequest,
+    productSuccess, 
+    clearErrors as clearProductErrors,
+ } from "../slices/product/productSlice"
+ import { 
+    productsFail,
+    productsRequest,
+    productsSuccess, 
+    clearErrors as clearProductsErrors,
+ } from "../slices/product/productsSlice"
 import axios from 'axios'
 
 export const getProducts = async (dispatch) => {
     try {
-        dispatch(allProductsRequest())
+        dispatch(productsRequest())
         const {data} = await axios.get('/api/v1/products');
-        dispatch(allProductsSuccess(data))
+        console.log(data);
+        dispatch(productsSuccess(data))
     } catch (error) {
-        dispatch(allProductsFail(error.response.data.message))
+        dispatch(productsFail(error.response.data.message))
     }
 }
 
-export const clearProductErrors = (dispatch) => {
-    dispatch( clearErrors())
+export const getProduct = (id) => async (dispatch) => {
+    try {
+        dispatch(productRequest())
+        const {data} = await axios.get(`/api/v1/product/${id}`);
+        dispatch(productSuccess(data))
+    } catch (error) {
+        dispatch(productFail(error.response.data.message))
+    }
+}
+
+
+export const clrProductErrors = (dispatch) => {
+    dispatch( clearProductErrors())
+}
+export const clrProductsErrors = (dispatch) => {
+    dispatch( clearProductsErrors())
 }

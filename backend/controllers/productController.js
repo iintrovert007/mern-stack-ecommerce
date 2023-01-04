@@ -8,8 +8,6 @@ exports.getProducts = catchAsyncError(async (req, res, next)=>{
     const resPerPage = 3;
     const apiFeatures = new APIFeatures(Product.find(), req.query).search().filter().paginate(resPerPage);
     const products = await apiFeatures.query;
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    return next(new ErrorHandler('Unable to load products', 500))
     res.status(200).json({
         success : true,
         count: products.length,

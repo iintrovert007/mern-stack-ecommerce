@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function Home() {
-    const { loading, products, error, productsCount }  = useSelector(state => state.productState)
+    const { loading, products, error, productsCount }  = useSelector(state => state.productsState)
 
     const dispatch = useDispatch()
     
@@ -18,11 +18,7 @@ export default function Home() {
             })
         }
         getProducts(dispatch)
-        console.log(error);
     },[error])
-    
-    
-
     
     return (
         <Fragment>
@@ -58,13 +54,10 @@ export default function Home() {
                                 </div>
                             </div>
                         ))}
-                        
-
                     </div>
                     </section>
                 </div>
             </Fragment>}
         </Fragment>
-       
     )
 }
