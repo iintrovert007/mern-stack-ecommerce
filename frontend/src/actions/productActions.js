@@ -7,7 +7,7 @@ export const getProducts = async (dispatch) => {
         const {data} = await axios.get('/api/v1/products');
         dispatch(allProductsSuccess(data))
     } catch (error) {
-        dispatch(allProductsFail({error: error.response.data.message}))
+        dispatch(allProductsFail(error.response.data.message))
     }
 }
 

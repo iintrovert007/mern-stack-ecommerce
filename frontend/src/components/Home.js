@@ -3,19 +3,30 @@ import { useDispatch, useSelector } from "react-redux"
 import { getProducts } from "../actions/productActions"
 import MetaData from "./layouts/MetaData"
 import Loader from "./Loader"
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Home() {
-
-    const dispatch = useDispatch()
-    useEffect(()=>{
-        getProducts(dispatch)
-    },[])
-
     const { loading, products, error, productsCount }  = useSelector(state => state.productState)
 
+    const dispatch = useDispatch()
+    
+    useEffect(()=>{
+        if(error) {
+           return toast.error(error, {
+                position: toast.POSITION.BOTTOM_CENTER
+            })
+        }
+        getProducts(dispatch)
+        console.log(error);
+    },[error])
+    
+    
 
+    
     return (
         <Fragment>
+            <ToastContainer theme="dark"/>
             {loading ? <Loader/> :
             <Fragment>
                 <MetaData title={'Buy Best Products'}/>
