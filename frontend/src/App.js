@@ -18,6 +18,7 @@ function App() {
                   <ToastContainer theme='dark' />
                   <Routes>
                       <Route path='/' element={<Home/>} />
+                      <Route path='/search/:keyword' element={<Home/>}  />
                       <Route path='/product/:id' element={<ProductDetail/>} />
                   </Routes>
                 </div>

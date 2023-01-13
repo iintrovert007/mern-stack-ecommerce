@@ -6,11 +6,12 @@ import MetaData from "./layouts/MetaData";
 import Product from "./product/Product";
 import  {toast} from 'react-toastify';
 import Pagination from 'react-js-pagination';
+import { useParams } from "react-router-dom";
 
-export  default function Home(){
-   
+export  default function Home({match}){
     const {products, loading, error, productsCount, resPerPage} =    useSelector((state) => state.productsState)
     const [currentPage, setCurrentPage] = useState(1);
+    const { keyword } = useParams();
 
     const dispatch = useDispatch();
     useEffect(()=>{
@@ -19,9 +20,9 @@ export  default function Home(){
                 position: toast.POSITION.BOTTOM_CENTER
             })
         }
-        dispatch(getProducts(currentPage)) 
+        dispatch(getProducts(keyword, currentPage)) 
       
-    }, [error,dispatch, currentPage])
+    }, [error,dispatch, currentPage, keyword])
 
     const setCurrentPageNo = (pageNo) =>{
         setCurrentPage(pageNo);
