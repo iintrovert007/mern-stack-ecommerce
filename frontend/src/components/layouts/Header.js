@@ -1,14 +1,19 @@
 import React from 'react';
-import {Route, Routes} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import Search from './Search';
 
 export default function Header () {
+
+    
+
     return (
     <nav className="navbar row">
         <div className="col-12 col-md-3">
 			<div className="navbar-brand">
+                <Link  to="/" >
 				<img width="150px" alt='JVLcart Logo' src="/images/logo.png" />
-			</div>
+                </Link>
+            </div>
         </div>
   
         <div className="col-12 col-md-6 mt-2 mt-md-0">
