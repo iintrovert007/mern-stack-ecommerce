@@ -1,16 +1,15 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import Search from './Search';
 
 export default function Header () {
-
-    
+    const location = useLocation();
 
     return (
     <nav className="navbar row">
         <div className="col-12 col-md-3">
 			<div className="navbar-brand">
-                <Link  to="/" >
+                <Link state={{previousPath: location.pathname}}  to="/" >
 				<img width="150px" alt='JVLcart Logo' src="/images/logo.png" />
                 </Link>
             </div>

@@ -7,6 +7,11 @@ import { HelmetProvider } from 'react-helmet-async'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProductDetail from './components/product/ProductDetail';
+import Search from './components/product/ProductSearch';
+
+const homeLoader = {
+    price: [1, 555]
+}
 
 function App() {
   return (
@@ -17,9 +22,9 @@ function App() {
                 <div className='container container-fluid'>
                   <ToastContainer theme='dark' />
                   <Routes>
-                      <Route path='/' element={<Home/>} />
-                      <Route path='/search/:keyword' element={<Home/>}  />
-                      <Route path='/product/:id' element={<ProductDetail/>} />
+                      <Route  path='/' element={<Home/>}  />
+                      <Route path='/search/:keyword' element={<Search   />}  />
+                      <Route  path='/product/:id' element={<ProductDetail/>} />
                   </Routes>
                 </div>
             <Footer/>
