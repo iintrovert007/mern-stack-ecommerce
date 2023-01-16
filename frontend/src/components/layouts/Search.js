@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import {useLocation, useNavigate} from 'react-router-dom';
 export default function Search() {
 
-    const [keyword, setKeyword] = useState();
+    const [keyword, setKeyword] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
     const searchHandler = (e) => {
@@ -18,7 +18,6 @@ export default function Search() {
     }
 
     useEffect(() => {
-        console.log(location.pathname);
         if(location.pathname == '/') {
             clearKeyword()
         }
