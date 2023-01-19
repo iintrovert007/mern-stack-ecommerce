@@ -4,12 +4,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const productsSlice = createSlice({
     name: 'products',
     initialState: {
-        loading: false,
+        loading: false
     },
     reducers: {
         productsRequest(state, action){
             return {
-                loading: true,
+                loading: true
             }
         },
         productsSuccess(state, action){
@@ -17,7 +17,7 @@ const productsSlice = createSlice({
                 loading: false,
                 products: action.payload.products,
                 productsCount: action.payload.count,
-                resPerPage: action.payload.resPerPage
+                resPerPage : action.payload.resPerPage
             }
         },
         productsFail(state, action){

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 
-
 export default function Product ({product, col}) {
     return (
         <div className={`col-sm-12 col-md-6 col-lg-${col} my-3`}>
