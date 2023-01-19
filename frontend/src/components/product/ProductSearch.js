@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../actions/productsActions";
+import { getProducts } from "../../actions/productActions";
 import Loader from ".././layouts/Loader";
 import MetaData from ".././layouts/MetaData";
 import Product from ".././product/Product";
@@ -42,6 +42,7 @@ export  default function ProductSearch(){
         setCurrentPage(pageNo)
        
     }
+    
 
     useEffect(()=>{
         if(error) {
@@ -49,7 +50,7 @@ export  default function ProductSearch(){
                 position: toast.POSITION.BOTTOM_CENTER
             })
         }
-        dispatch(getProducts(keyword, price, category, rating, currentPage)) 
+        dispatch(getProducts(keyword, priceChanged, category, rating, currentPage)) 
     }, [error, dispatch, currentPage, keyword, priceChanged, category, rating])
 
 
