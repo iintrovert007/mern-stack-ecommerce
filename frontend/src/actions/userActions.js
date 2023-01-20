@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {clearAuthError, loginFail, loginRequest, loginSuccess, registerFail, registerRequest, registerSuccess } from '../slices/authSlice';
+import {clearAuthError, loadUserFail, loadUserRequest, loadUserSuccess, loginFail, loginRequest, loginSuccess, registerFail, registerRequest, registerSuccess } from '../slices/authSlice';
 
 export const login = (email, password) => async (dispatch) => {
 
@@ -40,4 +40,17 @@ export const register = (userData) => async (dispatch) => {
 
 export const  clearError= dispatch => {
     dispatch(clearAuthError()) 
+}
+
+export const  loadUser= async dispatch => {
+    try {  
+        dispatch(loadUserRequest()) 
+      
+        const { data }  =  await axios.get(`/api/v1/myprofile`);
+        dispatch(loadUserSuccess(data))
+    } catch (error) {
+        //handle error
+        dispatch(loadUserFail(error.response.data.message))
+    }
+    
 }

@@ -25,10 +25,10 @@ export  default function Login(){
         }
         if(error) {
            toast(error,{
-                type: 'error',
-                position: toast.POSITION.BOTTOM_CENTER,
-                onOpen: () => dispatch(clearError)
-            }
+                    type: 'error',
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    onOpen: () => dispatch(clearError)
+                }
             );
             return;
         }
