@@ -7,13 +7,20 @@ const crypto = require('crypto')
 
 //Register User - /api/v1/register
 exports.registerUser = catchAsyncError(async (req, res, next) => {
-    const {name, email, password, avatar} = req.body
+    const {name, email, password} = req.body
+
+    let avatar;
+    if(req.file) {
+        avatar = `${req.protocol}://${req.get('host')}/uploads/users/${req.file.originalname}`;
+    }
+   
     const user = await User.create({
         name,
         email,
         password,
         avatar
     });
+   
 
     sendToken(user, 201, res)
 

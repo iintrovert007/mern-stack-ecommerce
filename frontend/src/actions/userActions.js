@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { loginFail, loginRequest, loginSuccess, registerFail, registerRequest, registerSuccess } from '../slices/authSlice';
+import {clearAuthError, loginFail, loginRequest, loginSuccess, registerFail, registerRequest, registerSuccess } from '../slices/authSlice';
 
 export const login = (email, password) => async (dispatch) => {
 
@@ -25,7 +25,7 @@ export const register = (userData) => async (dispatch) => {
         dispatch(registerRequest()) 
         const config = {
             headers: {
-                'Content-type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data'
             }
         }
         const { data }  =  await axios.post(`/api/v1/register`,userData, config);
@@ -35,4 +35,9 @@ export const register = (userData) => async (dispatch) => {
         dispatch(registerFail(error.response.data.message))
     }
     
+    
+}
+
+export const  clearError= dispatch => {
+    dispatch(clearAuthError()) 
 }

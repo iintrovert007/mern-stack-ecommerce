@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { login } from "../../actions/userActions";
+import { Link, useNavigate } from "react-router-dom";
+import { login,clearError } from "../../actions/userActions";
 import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
 import { toast } from 'react-toastify';
@@ -21,12 +21,15 @@ export  default function Login(){
 
     useEffect(() => {
         if(isAuthenticated) {
-            navigate('/')
+          navigate('/')
         }
         if(error) {
-            toast.error(error,{
-                position: toast.POSITION.BOTTOM_CENTER
-            });
+           toast(error,{
+                type: 'error',
+                position: toast.POSITION.BOTTOM_CENTER,
+                onOpen: () => dispatch(clearError)
+            }
+            );
             return;
         }
     }, [dispatch, isAuthenticated, error, navigate])
@@ -72,7 +75,7 @@ export  default function Login(){
                             LOGIN
                             </button>
 
-                            <a href="/#" className="float-right mt-3">New User?</a>
+                            <Link  to="/register" className="float-right mt-3">New User?</Link>
                         </form>
                     </div>
                 </div>
