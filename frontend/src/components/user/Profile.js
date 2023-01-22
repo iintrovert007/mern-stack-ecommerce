@@ -1,20 +1,10 @@
-import { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { login,clearError } from "../../actions/userActions";
-import Loader from "../layouts/Loader";
+import { Fragment} from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import MetaData from "../layouts/MetaData";
-import { toast } from 'react-toastify';
 
 export  default function Profile(){
-    const {  isAuthenticated, user } = useSelector(state=>state.authState)
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if(!isAuthenticated) {
-          navigate('/')
-        }
-    }, [ isAuthenticated, navigate])
+    const {   user } = useSelector(state=>state.authState)
 
     return (
         user?(<Fragment>
