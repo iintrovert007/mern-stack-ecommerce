@@ -90,7 +90,7 @@ export const updateProfile = (userData) => async (dispatch) => {
                 'Content-Type': 'multipart/form-data'
             }
         }
-        const { data }  =  await axios.post(`/api/v1/update`,userData, config);
+        const { data }  =  await axios.put(`/api/v1/update`,userData, config);
         dispatch(updateProfileSuccess(data))
     } catch (error) {
         //handle error
