@@ -33,7 +33,7 @@ export  default function Profile(){
                         My Orders
                     </Link>
 
-                    <Link to="/change-password" className="btn btn-primary btn-block mt-3">
+                    <Link to="/myprofile/update/password" className="btn btn-primary btn-block mt-3">
                         Change Password
                     </Link>
                 </div>

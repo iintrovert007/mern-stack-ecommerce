@@ -140,7 +140,9 @@ exports.getUserProfile = catchAsyncError(async (req, res, next) => {
 //Change Password  - api/v1/password/change
 exports.changePassword  = catchAsyncError(async (req, res, next) => {
     const user = await User.findById(req.user.id).select('+password');
-    
+    if(!req.body.oldPassword || !req.body.password) {
+        return next(new ErrorHandler('Old password & New password is required', 401));
+    }
     //check old password
     if(!await user.isValidPassword(req.body.oldPassword)) {
         return next(new ErrorHandler('Old password is incorrect', 401));

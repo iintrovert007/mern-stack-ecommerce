@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 export  default function UpdateProfile(){
     const { loading, error, user, isUpdated } = useSelector(state => state.authState)
-    const [name, setName] = useState();
-    const [email, setEmail] = useState();
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [avatar, setAvatar] = useState('');
     const [avatarPreview, setAvatarPReview] = useState('/images/default_avatar.png');
     const dispatch = useDispatch();
