@@ -14,13 +14,14 @@ import { useEffect } from 'react';
 import store  from './store'
 import { loadUser } from './actions/userActions';
 import { useSelector } from 'react-redux';
+import Profile from './components/user/Profile';
 
 function App() {
-  const { isAuthenticated } = useSelector(state => state.authState)
+  
   useEffect(() => {
-    if(isAuthenticated) {
+    
       store.dispatch(loadUser)
-    }
+    
   },[])
 
   return (
@@ -36,6 +37,7 @@ function App() {
                       <Route path='/product/:id' element={<ProductDetail/>} />
                       <Route path='/login' element={<Login/>} />
                       <Route path='/register' element={<Register/>} />
+                      <Route path='/myprofile' element={<Profile/>} />
                   </Routes>
                 </div>
             <Footer/>
