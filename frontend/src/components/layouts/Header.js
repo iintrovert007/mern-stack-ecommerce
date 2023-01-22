@@ -1,13 +1,17 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Search from './Search';
-import { DropdownButton, Dropdown, Image } from 'react-bootstrap';
+import {  Dropdown, Image } from 'react-bootstrap';
+import { logout } from '../../actions/userActions';
 
 export default function Header () {
 
-    const { user } = useSelector(state => state.authState);
-
+    const { isAuthenticated, user } = useSelector(state => state.authState);
+    const dispatch = useDispatch();
+    const logoutHandler = () => {
+      dispatch(logout)
+    }
     return (
     <nav className="navbar row">
         <div className="col-12 col-md-3">
@@ -23,9 +27,9 @@ export default function Header () {
         </div>
   
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-          { user ? (
+          {  isAuthenticated? (
             <Dropdown className='d-inline' variant="">
-            <Dropdown.Toggle variant="default text-white pr-5" id="dropdown-basic">
+            <Dropdown.Toggle  variant="default text-white pr-5" id="dropdown-basic">
               <figure className='avatar avatar-nav'>
               <Image width="50px" src="./images/default_avatar.png" fluid   />
               </figure>
@@ -33,7 +37,7 @@ export default function Header () {
             </Dropdown.Toggle>
           
             <Dropdown.Menu>
-              <Dropdown.Item className='text-danger' >Logout</Dropdown.Item>
+              <Dropdown.Item onClick={logoutHandler} className='text-danger' >Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           ) 

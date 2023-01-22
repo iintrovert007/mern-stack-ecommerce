@@ -59,6 +59,7 @@ const authSlice = createSlice({
         },
         loadUserRequest(state, action){
             return {
+                ...state,
                 loading: true,
                 isAuthenticated: false
             }
@@ -70,12 +71,16 @@ const authSlice = createSlice({
                 user: action.payload.user
             }
         },
-        loadUserFail(state, action){
+        logoutSuccess(state, action){
             return {
                 loading: false,
                 isAuthenticated: false,
-                error: action.payload,
-                user: null
+            }
+        },
+        logoutFail(state, action){
+            return {
+                ...state,
+                error: action.payload
             }
         },
     }
@@ -93,7 +98,9 @@ export const {
     clearAuthError,
     loadUserRequest,
     loadUserSuccess,
-    loadUserFail 
+    loadUserFail,
+    logoutFail,
+    logoutSuccess
 } = actions;
 
 export default reducer;

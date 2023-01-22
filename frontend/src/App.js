@@ -13,10 +13,14 @@ import Register from './components/user/Register';
 import { useEffect } from 'react';
 import store  from './store'
 import { loadUser } from './actions/userActions';
+import { useSelector } from 'react-redux';
 
 function App() {
+  const { isAuthenticated } = useSelector(state => state.authState)
   useEffect(() => {
-    store.dispatch(loadUser)
+    if(isAuthenticated) {
+      store.dispatch(loadUser)
+    }
   },[])
 
   return (
