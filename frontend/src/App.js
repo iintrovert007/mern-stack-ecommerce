@@ -18,6 +18,9 @@ import Profile from './components/user/Profile';
 import ProtectedRoute from './components/route/ProtectedRoute';
 import UpdateProfile from './components/user/UpdateProfile';
 import UpdatePassword from './components/user/UpdatePassword';
+import ForgotPassword from './components/user/ForgotPassword';
+import ResetPassword from './components/user/ResetPassword';
+import GuestRoute from './components/route/GuestRoute';
 
 function App() {
   
@@ -38,11 +41,13 @@ function App() {
                       <Route path='/' element={<Home/>} />
                       <Route path='/search/:keyword' element={<ProductSearch/>} />
                       <Route path='/product/:id' element={<ProductDetail/>} />
-                      <Route path='/login' element={<Login/>} />
-                      <Route path='/register' element={<Register/>} />
+                      <Route path='/login' element={<GuestRoute><Login/></GuestRoute>} />
+                      <Route path='/register' element={<GuestRoute><Register/></GuestRoute>} />
                       <Route path='/myprofile' element={<ProtectedRoute><Profile/></ProtectedRoute>} />
                       <Route path='/myprofile/update' element={<ProtectedRoute><UpdateProfile/></ProtectedRoute>} />
                       <Route path='/myprofile/update/password' element={<ProtectedRoute><UpdatePassword/></ProtectedRoute>} />
+                      <Route path='/password/forgot' element={<GuestRoute><ForgotPassword/></GuestRoute>} />
+                      <Route path='/password/reset/:token' element={<GuestRoute><ResetPassword/></GuestRoute> } />
                   </Routes>
                 </div>
             <Footer/>
