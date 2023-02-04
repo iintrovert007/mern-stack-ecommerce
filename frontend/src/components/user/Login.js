@@ -19,6 +19,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
     useEffect(() => {
         if(isAuthenticated) {
+            
             navigate('/')
         }
 
@@ -30,7 +31,7 @@ import { Link, useNavigate } from 'react-router-dom';
             })
             return
         }
-            navigate('/')
+    
     },[error, isAuthenticated, dispatch, navigate])
 
     return (
