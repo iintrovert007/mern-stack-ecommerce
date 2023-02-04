@@ -2,12 +2,13 @@ import { Fragment, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom";
 import { getProduct } from "../../actions/productActions"
+import { addCartItem } from "../../actions/cartActions";
 import Loader from '../layouts/Loader';
 import { Carousel } from 'react-bootstrap';
 import MetaData from "../layouts/MetaData";
 
 export default function ProductDetail () {
-     const { loading, product} = useSelector((state)=>state.productState);
+    const { loading, product} = useSelector((state)=>state.productState);
     const dispatch = useDispatch();
     const { id } = useParams()
     const [quantity, setQuantity] = useState(1);
@@ -67,7 +68,7 @@ export default function ProductDetail () {
 
                         <span className="btn btn-primary plus" onClick={increaseQty}>+</span>
                     </div>
-                    <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4">Add to Cart</button>
+                    <button type="button" id="cart_btn" onClick={ () => dispatch(addCartItem(product._id, quantity))} className="btn btn-primary d-inline ml-4">Add to Cart</button>
 
                     <hr/>
 
