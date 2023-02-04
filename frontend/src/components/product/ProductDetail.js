@@ -26,6 +26,8 @@ export default function ProductDetail () {
         setQuantity(qty);
     }
 
+    
+
     useEffect(()=>{
         dispatch(getProduct(id))
     },[dispatch,id])

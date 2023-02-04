@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {  increaseCartItemQty, decreaseCartItemQty } from "../../slices/cartSlice";
+import {  increaseCartItemQty, decreaseCartItemQty, removeItemFromCart } from "../../slices/cartSlice";
 import MetaData from "../layouts/MetaData";
 
 export default function Cart () {
@@ -56,7 +56,7 @@ export default function Cart () {
                                     </div>
 
                                     <div className="col-4 col-lg-1 mt-4 mt-lg-0">
-                                        <i id="delete_cart_item" className="fa fa-trash btn btn-danger"></i>
+                                        <i id="delete_cart_item" onClick={()=>dispatch(removeItemFromCart(item.product))} className="fa fa-trash btn btn-danger"></i>
                                     </div>
 
                                 </div>

@@ -41,7 +41,7 @@ const cartSlice = createSlice({
                 }
                 return item;
             })
-           
+            localStorage.setItem('cartItems', JSON.stringify(state.items));
          
 
         },
@@ -53,8 +53,20 @@ const cartSlice = createSlice({
                 }
                 return item;
             })
-         
+            localStorage.setItem('cartItems', JSON.stringify(state.items));
 
+        },
+        removeItemFromCart(state, action) {
+           
+            const filteredItems = state.items.filter((item) => {
+                    return item.product !== action.payload
+            })
+            localStorage.setItem('cartItems', JSON.stringify(filteredItems));
+            return {
+                ...state,
+                items: filteredItems
+            }
+        
         }
         
     }
@@ -66,7 +78,8 @@ export const {
     addCartItemRequest, 
     addCartItemSuccess,
     increaseCartItemQty,
-    decreaseCartItemQty
+    decreaseCartItemQty,
+    removeItemFromCart
 } = actions;
 
 export default reducer;
