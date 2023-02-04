@@ -6,7 +6,7 @@ import { forgotPassword,clearAuthError } from "../../actions/userActions";
 export default function ForgotPassword() {
     const [email, setEmail] = useState("");
     const dispatch = useDispatch();
-    const { loading, error, user, message } = useSelector(state => state.authState);
+    const {  error, message } = useSelector(state => state.authState);
 
     const submitHandler = (e) => {
         e.preventDefault();

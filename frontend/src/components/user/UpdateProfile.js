@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { updateProfile, clearAuthError } from "../../actions/userActions";
 
 export default function UpdateProfile () {
-    const { loading, error, user, isUpdated } = useSelector(state => state.authState);
+    const {  error, user, isUpdated } = useSelector(state => state.authState);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [avatar, setAvatar] = useState("");
@@ -12,7 +12,7 @@ export default function UpdateProfile () {
     const dispatch = useDispatch();
 
     const onChangeAvatar = (e) => {
-        const reader = new FileReader;
+        const reader = new FileReader();
         reader.onload = () => {
              if(reader.readyState === 2) {
                  setAvatarPreview(reader.result);
@@ -58,7 +58,7 @@ export default function UpdateProfile () {
             })
             return
         }
-    },[user, isUpdated, error])
+    },[user, isUpdated, error, dispatch])
 
     return (  
     <div className="row wrapper">
