@@ -42,7 +42,6 @@ export  default function ProductSearch(){
         setCurrentPage(pageNo)
        
     }
-    
 
     useEffect(()=>{
         if(error) {

@@ -1,163 +1,155 @@
-import axios from 'axios';
 import {
-    clearAuthError, 
-    forgotPasswordFail, 
-    forgotPasswordRequest, 
-    forgotPasswordSuccess, 
-    loadUserRequest, 
-    loadUserSuccess, 
-    loginFail, 
+    loginFail,
     loginRequest, 
     loginSuccess, 
-    logoutFail, 
+    clearError,
+    registerFail,
+    registerRequest,
+    registerSuccess,
+    loadUserRequest,
+    loadUserSuccess,
+    loadUserFail,
     logoutSuccess,
-    registerFail, 
-    registerRequest, 
-    registerSuccess, 
-    updatePasswordFail, 
-    updatePasswordRequest, 
-    updatePasswordSuccess, 
-    updateProfileFail, 
+    logoutFail,
     updateProfileRequest,
     updateProfileSuccess,
-    resetPasswordFail,
+    updateProfileFail,
+    updatePasswordRequest,
+    updatePasswordSuccess,
+    updatePasswordFail,
+    forgotPasswordRequest,
+    forgotPasswordSuccess,
+    forgotPasswordFail,
+    resetPasswordRequest,
     resetPasswordSuccess,
-    resetPasswordRequest
+    resetPasswordFail
 } from '../slices/authSlice';
+import axios from 'axios';
 
 export const login = (email, password) => async (dispatch) => {
 
-    try {  
-        dispatch(loginRequest()) 
+        try {
+            dispatch(loginRequest())
+            const { data }  = await axios.post(`/api/v1/login`,{email,password});
+            dispatch(loginSuccess(data))
+        } catch (error) {
+            dispatch(loginFail(error.response.data.message))
+        }
+
+}
+
+export const clearAuthError = dispatch => {
+    dispatch(clearError())
+}
+
+export const register = (userData) => async (dispatch) => {
+
+    try {
+        dispatch(registerRequest())
+        const config = {
+            headers: {
+                'Content-type': 'multipart/form-data'
+            }
+        }
+
+        const { data }  = await axios.post(`/api/v1/register`,userData, config);
+        dispatch(registerSuccess(data))
+    } catch (error) {
+        dispatch(registerFail(error.response.data.message))
+    }
+
+}
+
+export const loadUser =  async (dispatch) => {
+
+    try {
+        dispatch(loadUserRequest())
+       
+
+        const { data }  = await axios.get(`/api/v1/myprofile`);
+        dispatch(loadUserSuccess(data))
+    } catch (error) {
+        dispatch(loadUserFail(error.response.data.message))
+    }
+
+}
+
+export const logout =  async (dispatch) => {
+
+    try {
+        await axios.get(`/api/v1/logout`);
+        dispatch(logoutSuccess())
+    } catch (error) {
+        dispatch(logoutFail)
+    }
+
+}
+
+export const updateProfile = (userData) => async (dispatch) => {
+
+    try {
+        dispatch(updateProfileRequest())
+        const config = {
+            headers: {
+                'Content-type': 'multipart/form-data'
+            }
+        }
+
+        const { data }  = await axios.put(`/api/v1/update`,userData, config);
+        dispatch(updateProfileSuccess(data))
+    } catch (error) {
+        dispatch(updateProfileFail(error.response.data.message))
+    }
+
+}
+
+export const updatePassword = (formData) => async (dispatch) => {
+
+    try {
+        dispatch(updatePasswordRequest())
         const config = {
             headers: {
                 'Content-type': 'application/json'
             }
         }
-        const { data }  =  await axios.post(`/api/v1/login`, {email, password}, config);
-        dispatch(loginSuccess(data))
-    } catch (error) {
-        //handle error
-        dispatch(loginFail(error.response.data.message))
-    }
-    
-}
-
-export const register = (userData) => async (dispatch) => {
-
-    try {  
-        dispatch(registerRequest()) 
-        const config = {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }
-        const { data }  =  await axios.post(`/api/v1/register`,userData, config);
-        dispatch(registerSuccess(data))
-    } catch (error) {
-        //handle error
-        dispatch(registerFail(error.response.data.message))
-    }
-    
-    
-}
-
-export const  clearError= dispatch => {
-    dispatch(clearAuthError()) 
-}
-
-export const  loadUser= async dispatch => {
-    try {  
-        dispatch(loadUserRequest()) 
-      
-        const { data }  =  await axios.get(`/api/v1/myprofile`);
-        dispatch(loadUserSuccess(data))
-    } catch (error) {
-        //handle error
-    }
-    
-}
-
-export const  logout = async dispatch => {
-    try {  
-      
-        await axios.get(`/api/v1/logout`);
-        dispatch(logoutSuccess())
-    } catch (error) {
-        //handle error
-        dispatch(logoutFail())
-    }
-    
-}
-
-
-export const updateProfile = (userData) => async (dispatch) => {
-
-    try {  
-        dispatch(updateProfileRequest()) 
-        const config = {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }
-        const { data }  =  await axios.put(`/api/v1/update`,userData, config);
-        dispatch(updateProfileSuccess(data))
-    } catch (error) {
-        //handle error
-        dispatch(updateProfileFail(error.response.data.message))
-    }
-    
-    
-}
-export const UpdatePassword = (formData) => async (dispatch) => {
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-    try {  
-        dispatch(updatePasswordRequest()) 
-        await axios.put(`/api/v1/password/change`,formData, config);
+        await axios.put(`/api/v1/password/change`, formData, config);
         dispatch(updatePasswordSuccess())
     } catch (error) {
-        //handle error
         dispatch(updatePasswordFail(error.response.data.message))
     }
-    
-    
+
 }
+
 export const forgotPassword = (formData) => async (dispatch) => {
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
+
+    try {
+        dispatch(forgotPasswordRequest())
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
         }
-    }
-    try {  
-        dispatch(forgotPasswordRequest()) 
-        const { data } = await axios.post(`/api/v1/password/forgot`,formData, config);
-        dispatch(forgotPasswordSuccess(data.message))
+        const { data} =  await axios.post(`/api/v1/password/forgot`, formData, config);
+        dispatch(forgotPasswordSuccess(data))
     } catch (error) {
-        //handle error
         dispatch(forgotPasswordFail(error.response.data.message))
     }
-    
-    
+
 }
+
 export const resetPassword = (formData, token) => async (dispatch) => {
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
+
+    try {
+        dispatch(resetPasswordRequest())
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
         }
-    }
-   
-    try {  
-        dispatch(resetPasswordRequest()) 
-        const { data } = await axios.post(`/api/v1/password/reset/${token}`,formData, config);
+        const { data} =  await axios.post(`/api/v1/password/reset/${token}`, formData, config);
         dispatch(resetPasswordSuccess(data))
     } catch (error) {
-        //handle error
         dispatch(resetPasswordFail(error.response.data.message))
     }
-    
-    
+
 }

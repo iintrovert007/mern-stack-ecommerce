@@ -11,24 +11,20 @@ import ProductSearch from './components/product/ProductSearch';
 import Login from './components/user/Login';
 import Register from './components/user/Register';
 import { useEffect } from 'react';
-import store  from './store'
+import store from './store';
 import { loadUser } from './actions/userActions';
-import { useSelector } from 'react-redux';
 import Profile from './components/user/Profile';
 import ProtectedRoute from './components/route/ProtectedRoute';
 import UpdateProfile from './components/user/UpdateProfile';
 import UpdatePassword from './components/user/UpdatePassword';
 import ForgotPassword from './components/user/ForgotPassword';
 import ResetPassword from './components/user/ResetPassword';
-import GuestRoute from './components/route/GuestRoute';
 
 function App() {
-  
+
   useEffect(() => {
-    
-      store.dispatch(loadUser)
-    
-  },[])
+    store.dispatch(loadUser)
+  })
 
   return (
     <Router>
@@ -41,13 +37,13 @@ function App() {
                       <Route path='/' element={<Home/>} />
                       <Route path='/search/:keyword' element={<ProductSearch/>} />
                       <Route path='/product/:id' element={<ProductDetail/>} />
-                      <Route path='/login' element={<GuestRoute><Login/></GuestRoute>} />
-                      <Route path='/register' element={<GuestRoute><Register/></GuestRoute>} />
-                      <Route path='/myprofile' element={<ProtectedRoute><Profile/></ProtectedRoute>} />
-                      <Route path='/myprofile/update' element={<ProtectedRoute><UpdateProfile/></ProtectedRoute>} />
-                      <Route path='/myprofile/update/password' element={<ProtectedRoute><UpdatePassword/></ProtectedRoute>} />
-                      <Route path='/password/forgot' element={<GuestRoute><ForgotPassword/></GuestRoute>} />
-                      <Route path='/password/reset/:token' element={<GuestRoute><ResetPassword/></GuestRoute> } />
+                      <Route path='/login' element={<Login/>} />
+                      <Route path='/register' element={<Register/>} />
+                      <Route path='/myprofile' element={<ProtectedRoute><Profile/></ProtectedRoute> } />
+                      <Route path='/myprofile/update' element={<ProtectedRoute><UpdateProfile/></ProtectedRoute> } />
+                      <Route path='/myprofile/update/password' element={<ProtectedRoute><UpdatePassword/></ProtectedRoute> } />
+                      <Route path='/password/forgot' element={<ForgotPassword/> } />
+                      <Route path='/password/reset/:token' element={<ResetPassword/> } />
                   </Routes>
                 </div>
             <Footer/>

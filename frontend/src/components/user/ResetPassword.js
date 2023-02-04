@@ -1,57 +1,49 @@
-import { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { clearError, resetPassword, } from "../../actions/userActions";
-import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetPassword, clearAuthError } from '../../actions/userActions';
+import {useNavigate, useParams} from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-
-export  default function ResetPassword(){
-    const { loading, error, user } = useSelector(state => state.authState)
+export default function ResetPassword() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const { token } = useParams();
     const dispatch = useDispatch();
+    const { isAuthenticated, error }  = useSelector(state => state.authState)
     const navigate = useNavigate();
+    const { token } = useParams();
 
-    const submitHandler = (e) => {
+    const submitHandler  = (e) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append('password', password);
         formData.append('confirmPassword', confirmPassword);
-        dispatch(resetPassword(formData, token));
+        
+        dispatch(resetPassword(formData, token))
     }
 
-    
-    
-
-    useEffect(() => {
-        if(user) {
-            toast("Password Reset Success!",{
-                    type: 'success',
-                    position: toast.POSITION.BOTTOM_CENTER,
-                }
-            );
-            setPassword("");
-            setConfirmPassword("");
+    useEffect(()=> {
+        if(isAuthenticated) {
+            toast('Password Reset Success!', {
+                type: 'success',
+                position: toast.POSITION.BOTTOM_CENTER
+            })
             navigate('/')
             return;
         }
-        if(error) {
-            toast(error,{
-                    type: 'error',
-                    position: toast.POSITION.BOTTOM_CENTER,
-                    onOpen: () => dispatch(clearError)
-                }
-            );
-            return;
+        if(error)  {
+            toast(error, {
+                position: toast.POSITION.BOTTOM_CENTER,
+                type: 'error',
+                onOpen: ()=> { dispatch(clearAuthError) }
+            })
+            return
         }
-    },[user, error])
+    },[isAuthenticated, error, dispatch])
 
     return (
-        <Fragment>
-          <div className="row wrapper">
+        <div className="row wrapper">
             <div className="col-10 col-lg-5">
-                <form className="shadow-lg" onSubmit={submitHandler}>
+                <form onSubmit={submitHandler} className="shadow-lg">
                     <h1 className="mb-3">New Password</h1>
 
                     <div className="form-group">
@@ -61,7 +53,7 @@ export  default function ResetPassword(){
                             id="password_field"
                             className="form-control"
                             value={password}
-                            onChange={(e)=>setPassword(e.target.value)}
+                            onChange={e => setPassword(e.target.value)}
                         />
                     </div>
 
@@ -72,12 +64,11 @@ export  default function ResetPassword(){
                             id="confirm_password_field"
                             className="form-control"
                             value={confirmPassword}
-                            onChange={(e)=>setConfirmPassword(e.target.value)}
+                            onChange={e => setConfirmPassword(e.target.value)}
                         />
                     </div>
 
                     <button
-                        disabled={loading}
                         id="new_password_button"
                         type="submit"
                         className="btn btn-block py-3">
@@ -87,7 +78,5 @@ export  default function ResetPassword(){
                 </form>
             </div>
         </div>
-        </Fragment>
     )
-
 }

@@ -1,45 +1,43 @@
-import { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { login,clearError } from "../../actions/userActions";
-import Loader from "../layouts/Loader";
-import MetaData from "../layouts/MetaData";
+import {Fragment, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearAuthError, login } from '../../actions/userActions';
+import MetaData from '../layouts/MetaData';
 import { toast } from 'react-toastify';
-
-export  default function Login(){
-    const { loading, error, isAuthenticated } = useSelector(state=>state.authState)
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
+import { Link, useNavigate } from 'react-router-dom';
+ export default function Login() {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const submitHandler = (e) => {
+    const { loading, error, isAuthenticated } = useSelector(state => state.authState)
+
+    const  submitHandler = (e) => {
         e.preventDefault();
         dispatch(login(email, password))
     }
 
-
     useEffect(() => {
         if(isAuthenticated) {
-          navigate('/')
+            navigate('/')
         }
-        if(error) {
-           toast(error,{
-                    type: 'error',
-                    position: toast.POSITION.BOTTOM_CENTER,
-                    onOpen: () => dispatch(clearError)
-                }
-            );
-            return;
+
+        if(error)  {
+            toast(error, {
+                position: toast.POSITION.BOTTOM_CENTER,
+                type: 'error',
+                onOpen: ()=> { dispatch(clearAuthError) }
+            })
+            return
         }
-    }, [dispatch, isAuthenticated, error, navigate])
+    },[error, isAuthenticated, dispatch])
 
     return (
         <Fragment>
-            <MetaData title={'Login'} />
+            <MetaData title={`Login`} />
             <div className="row wrapper"> 
                 <div className="col-10 col-lg-5">
-                    <form className="shadow-lg" onSubmit={submitHandler}>
+                    <form onSubmit={submitHandler} className="shadow-lg">
                         <h1 className="mb-3">Login</h1>
                         <div className="form-group">
                         <label htmlFor="email_field">Email</label>
@@ -48,7 +46,7 @@ export  default function Login(){
                             id="email_field"
                             className="form-control"
                             value={email}
-                            onChange={e=>setEmail(e.target.value)}
+                            onChange={e =>setEmail(e.target.value)}
                         />
                         </div>
             
@@ -59,7 +57,7 @@ export  default function Login(){
                             id="password_field"
                             className="form-control"
                             value={password}
-                            onChange={e=>setPassword(e.target.value)}
+                            onChange={e =>setPassword(e.target.value)}
                         />
                         </div>
 
@@ -74,11 +72,10 @@ export  default function Login(){
                         LOGIN
                         </button>
 
-                        <Link  to="/register" className="float-right mt-3">New User?</Link>
+                        <Link to="/register" className="float-right mt-3">New User?</Link>
                     </form>
                 </div>
             </div>
         </Fragment>
     )
-
 }

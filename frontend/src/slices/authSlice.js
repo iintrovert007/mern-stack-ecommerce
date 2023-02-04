@@ -2,19 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const authSlice = createSlice({
-    name: 'product',
+    name: 'auth',
     initialState: {
         loading: false,
         isAuthenticated: false
     },
     reducers: {
-     
         loginRequest(state, action){
             return {
+                ...state,
                 loading: true,
-                isAuthenticated: false
             }
-        }, 
+        },
         loginSuccess(state, action){
             return {
                 loading: false,
@@ -24,18 +23,23 @@ const authSlice = createSlice({
         },
         loginFail(state, action){
             return {
+                ...state,
                 loading: false,
-                isAuthenticated: false,
-                error: action.payload,
-                user: null
+                error:  action.payload
+            }
+        },
+        clearError(state, action){
+            return {
+                ...state,
+                error:  null
             }
         },
         registerRequest(state, action){
             return {
+                ...state,
                 loading: true,
-                isAuthenticated: false
             }
-        }, 
+        },
         registerSuccess(state, action){
             return {
                 loading: false,
@@ -45,28 +49,30 @@ const authSlice = createSlice({
         },
         registerFail(state, action){
             return {
-                loading: false,
-                isAuthenticated: false,
-                error: action.payload,
-            }
-        },
-        clearAuthError(state, action){
-            return {
                 ...state,
-                error: null,
+                loading: false,
+                error:  action.payload
             }
         },
         loadUserRequest(state, action){
             return {
                 ...state,
-                isAuthenticated: false
+                isAuthenticated: false,
+                loading: true,
             }
-        }, 
+        },
         loadUserSuccess(state, action){
             return {
                 loading: false,
                 isAuthenticated: true,
                 user: action.payload.user
+            }
+        },
+        loadUserFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload
             }
         },
         logoutSuccess(state, action){
@@ -78,83 +84,83 @@ const authSlice = createSlice({
         logoutFail(state, action){
             return {
                 ...state,
-                error: action.payload
+                error:  action.payload
             }
         },
-
         updateProfileRequest(state, action){
             return {
                 ...state,
                 loading: true,
-                isUpdated: false,
-                error: null
+                isUpdated: false
             }
-        }, 
+        },
         updateProfileSuccess(state, action){
             return {
                 ...state,
                 loading: false,
                 user: action.payload.user,
-                isUpdated: true,
+                isUpdated: true
             }
         },
         updateProfileFail(state, action){
             return {
                 ...state,
                 loading: false,
-                error: action.payload
+                error:  action.payload
             }
         },
+
         updatePasswordRequest(state, action){
             return {
                 ...state,
                 loading: true,
-                isUpdated: false,
-                error: null
+                isUpdated: false
             }
-        }, 
+        },
         updatePasswordSuccess(state, action){
             return {
                 ...state,
                 loading: false,
-                isUpdated: true,
+                isUpdated: true
             }
         },
         updatePasswordFail(state, action){
             return {
                 ...state,
                 loading: false,
-                error: action.payload
+                error:  action.payload
             }
         },
         forgotPasswordRequest(state, action){
-            return {    
+            return {
+                ...state,
                 loading: true,
-                error: null,
                 message: null
             }
-        }, 
+        },
         forgotPasswordSuccess(state, action){
             return {
+                ...state,
                 loading: false,
-                message: action.payload
+                message: action.payload.message
             }
         },
         forgotPasswordFail(state, action){
             return {
+                ...state,
                 loading: false,
                 error: action.payload
             }
         },
         resetPasswordRequest(state, action){
-            return {    
+            return {
+                ...state,
                 loading: true,
-                error: null,
-                message: null
             }
-        }, 
+        },
         resetPasswordSuccess(state, action){
             return {
+                ...state,
                 loading: false,
                 isAuthenticated: true,
                 user: action.payload.user
@@ -162,40 +168,43 @@ const authSlice = createSlice({
         },
         resetPasswordFail(state, action){
             return {
+                ...state,
                 loading: false,
                 error: action.payload
             }
         },
+        
     }
 });
 
 const { actions, reducer } = authSlice;
 
 export const { 
-    loginRequest,
+    loginRequest, 
     loginSuccess, 
-    loginFail,
+    loginFail, 
+    clearError,
     registerRequest,
     registerSuccess,
     registerFail,
-    clearAuthError,
     loadUserRequest,
     loadUserSuccess,
+    loadUserFail,
     logoutFail,
     logoutSuccess,
+    updateProfileFail,
     updateProfileRequest,
     updateProfileSuccess,
-    updateProfileFail,
     updatePasswordFail,
-    updatePasswordRequest,
     updatePasswordSuccess,
-    forgotPasswordRequest,
+    updatePasswordRequest,
     forgotPasswordFail,
     forgotPasswordSuccess,
-    resetPasswordRequest,
+    forgotPasswordRequest,
     resetPasswordFail,
+    resetPasswordRequest,
     resetPasswordSuccess
-} = actions;
+ } = actions;
 
 export default reducer;
 

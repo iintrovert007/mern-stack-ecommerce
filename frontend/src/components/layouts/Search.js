@@ -18,7 +18,7 @@ export default function Search () {
     }
 
     useEffect(() => {
-        if(location.pathname == '/') {
+        if(location.pathname === '/') {
             clearKeyword();
         }
     },[location])

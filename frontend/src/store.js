@@ -6,8 +6,8 @@ import authReducer from './slices/authSlice';
 
 const reducer = combineReducers({
     productsState: productsReducer,
-    productState: productReducer,
-    authState: authReducer,
+    productState: productReducer ,
+    authState: authReducer
 })
 
 
