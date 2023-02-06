@@ -1,8 +1,11 @@
-import { Fragment } from "react"
+import { Fragment, useEffect } from "react"
 import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 import MetaData from "../layouts/MetaData"
 import CheckoutSteps from "./CheckoutSteps"
+import { validateShipping } from "./Shipping"
+
 
 export default function ConfirmOrder() {
     const { shippingInfo } = useSelector(state => state.cartState)
@@ -14,6 +17,23 @@ export default function ConfirmOrder() {
     const shippingPrice = itemsPrice > 200 ? 0 : 25;
     const taxPrice =  Number(0.05 * itemsPrice );
     const totalPrice = Number(itemsPrice + shippingPrice + taxPrice ).toFixed(2);
+    const navigate = useNavigate();
+
+    const processPayment = () => {
+        const data = {
+            itemsPrice,
+            shippingPrice,
+            taxPrice,
+            totalPrice 
+        }
+
+        sessionStorage.setItem('orderInfo', JSON.stringify(data));
+        navigate('/payment');
+    }
+
+    useEffect(() => {
+        validateShipping(shippingInfo, navigate);
+    },[])
 
     return (
         <Fragment>
@@ -69,7 +89,7 @@ export default function ConfirmOrder() {
                             <p>Total: <span className="order-summary-values">${totalPrice}</span></p>
 
                             <hr />
-                            <button id="checkout_btn" className="btn btn-primary btn-block">Proceed to Payment</button>
+                            <button onClick={processPayment} id="checkout_btn" className="btn btn-primary btn-block">Proceed to Payment</button>
                         </div>
                 </div>
             

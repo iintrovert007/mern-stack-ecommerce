@@ -3,7 +3,7 @@ const { processPayment,sendStripeApi } = require('../controllers/paymentControll
 const { isAuthenticatedUser } = require('../middlewares/authenticate');
 const router = express.Router();
 
-router.route('/order/new').post(isAuthenticatedUser, processPayment)
+router.route('/payment/process').post(isAuthenticatedUser, processPayment)
 router.route('/stripeapi').get(isAuthenticatedUser, sendStripeApi)
 
 module.exports = router;

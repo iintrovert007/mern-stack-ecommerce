@@ -5,7 +5,19 @@ import { useNavigate } from "react-router-dom";
 import { saveShippingInfo } from "../../slices/cartSlice";
 import MetaData from "../layouts/MetaData";
 import CheckoutSteps from "./CheckoutSteps";
-
+import { toast } from "react-toastify";
+export const validateShipping = (shippingInfo,navigate) => {
+    if(    !shippingInfo.address 
+        || !shippingInfo.city
+        || !shippingInfo.state
+        || !shippingInfo.country
+        || !shippingInfo.phone
+        || !shippingInfo.postcode
+    ) {
+        toast.error('Please fill the Shipping Information')
+        navigate('/shipping')
+    }
+}
 export default function Shipping () {
     const { shippingInfo } = useSelector(state => state.cartState)
 
@@ -14,14 +26,15 @@ export default function Shipping () {
     const [phone, setPhone] = useState(shippingInfo.phone);
     const [postcode, setPostcode] = useState(shippingInfo.postcode);
     const [country, setCountry] = useState(shippingInfo.country);
+    const [state, setState] = useState(shippingInfo.state);
     const countryList = Object.values(countries)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(saveShippingInfo({address, city, country, phone, postcode}))
-        navigate('/confirm')
+        dispatch(saveShippingInfo({address, city, country, state, phone, postcode}))
+        navigate('/order/confirm')
     }
 
     return (
@@ -43,7 +56,39 @@ export default function Shipping () {
                                 required
                             />
                         </div>
+                        <div className="form-group">
+                            <label htmlFor="country_field">Country</label>
+                            <select
+                                id="country_field"
+                                className="form-control"
+                                onChange={e=>setCountry(e.target.value)}
+                                value={country}
+                                required
+                            >
+                                {
+                                countryList.map((country,i) => (
+                                    <option key={i} value={country.name}>
+                                    {country.name}
+                                    </option>
+                                    )
+                                )
+                                }
+                                    
 
+
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="state_field">State</label>
+                            <input
+                                type="text"
+                                id="state_field"
+                                className="form-control"
+                                value={state}
+                                onChange={e=>setState(e.target.value)}
+                                required
+                            />
+                        </div>
                         <div className="form-group">
                             <label htmlFor="city_field">City</label>
                             <input
@@ -80,27 +125,7 @@ export default function Shipping () {
                             />
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="country_field">Country</label>
-                            <select
-                                id="country_field"
-                                className="form-control"
-                                onChange={e=>setCountry(e.target.value)}
-                                required
-                            >
-                                {
-                                countryList.map((country,i) => (
-                                    <option key={i} value={country}>
-                                    {country.name}
-                                    </option>
-                                    )
-                                )
-                                }
-                                    
-
-
-                            </select>
-                        </div>
+                       
 
                         <button
                             id="shipping_btn"
