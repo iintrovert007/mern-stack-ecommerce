@@ -28,7 +28,7 @@ const orderSlice = createSlice({
                 error: action.payload
             }
         },
-        clearError() {
+        clearError(state, action) {
             return {
                 ...state,
                 error: null
@@ -37,7 +37,7 @@ const orderSlice = createSlice({
     }
 });
 
-const { actions, reducer } = cartSlice;
+const { actions, reducer } = orderSlice;
 
 export const { 
     createOrderRequest, 

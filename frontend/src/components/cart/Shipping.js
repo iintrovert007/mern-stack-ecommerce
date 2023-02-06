@@ -11,8 +11,8 @@ export const validateShipping = (shippingInfo,navigate) => {
         || !shippingInfo.city
         || !shippingInfo.state
         || !shippingInfo.country
-        || !shippingInfo.phone
-        || !shippingInfo.postcode
+        || !shippingInfo.phoneNo
+        || !shippingInfo.postalCode
     ) {
         toast.error('Please fill the Shipping Information')
         navigate('/shipping')
@@ -23,8 +23,8 @@ export default function Shipping () {
 
     const [address, setAddress] = useState(shippingInfo.address);
     const [city, setCity] = useState(shippingInfo.city);
-    const [phone, setPhone] = useState(shippingInfo.phone);
-    const [postcode, setPostcode] = useState(shippingInfo.postcode);
+    const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
+    const [postalCode, setPostalCode] = useState(shippingInfo.postalCode);
     const [country, setCountry] = useState(shippingInfo.country);
     const [state, setState] = useState(shippingInfo.state);
     const countryList = Object.values(countries)
@@ -33,7 +33,7 @@ export default function Shipping () {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(saveShippingInfo({address, city, country, state, phone, postcode}))
+        dispatch(saveShippingInfo({address, city, country, state, phoneNo, postalCode}))
         navigate('/order/confirm')
     }
 
@@ -107,8 +107,8 @@ export default function Shipping () {
                                 type="phone"
                                 id="phone_field"
                                 className="form-control"
-                                value={phone}
-                                onChange={e=>setPhone(e.target.value)}
+                                value={phoneNo}
+                                onChange={e=>setPhoneNo(e.target.value)}
                                 required
                             />
                         </div>
@@ -119,8 +119,8 @@ export default function Shipping () {
                                 type="number"
                                 id="postal_code_field"
                                 className="form-control"
-                                value={postcode}
-                                onChange={e=>setPostcode(e.target.value)}
+                                value={postalCode}
+                                onChange={e=>setPostalCode(e.target.value)}
                                 required
                             />
                         </div>

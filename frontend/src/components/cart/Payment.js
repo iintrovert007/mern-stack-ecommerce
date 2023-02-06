@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import MetaData from '../layouts/MetaData';
 import CheckoutSteps from './CheckoutSteps';
 import { validateShipping } from './Shipping';
+import { clearError as clearOrderError } from '../../slices/orderSlice';
+import { createOrder } from '../../actions/orderActions';
 
 const options = {
     style : {
@@ -20,6 +22,8 @@ const options = {
     }
 }
 
+
+
 export default function Payment () {
     const stripe = useStripe();
     const elements = useElements();
@@ -28,7 +32,8 @@ export default function Payment () {
     const orderInfo = JSON.parse(sessionStorage.getItem('orderInfo'))
     const { user } = useSelector(state => state.authState);
     const { items:cartItems, shippingInfo } = useSelector(state => state.cartState);
-   
+    const { error:orderError } = useSelector(state => state.orderState);
+    
     const paymentData =  {
         amount: Math.round( orderInfo.totalPrice * 100),
         
@@ -44,9 +49,31 @@ export default function Payment () {
           },
     }
 
+    const order = {
+        orderItems: cartItems,
+        shippingInfo
+
+    }
+
+    if (orderInfo) {
+        order.itemsPrice = orderInfo.itemsPrice;
+        order.shippingPrice = orderInfo.totalPrice
+        order.taxPrice = orderInfo.taxPrice
+        order.totalPrice = orderInfo.totalPrice
+    }
  
     useEffect(() => {
         validateShipping(shippingInfo, navigate);
+
+        if(orderError)  {
+            toast(orderError, {
+                position: toast.POSITION.BOTTOM_CENTER,
+                type: 'error',
+                onOpen: ()=> { dispatch(clearOrderError()) }
+            })
+            return
+        }
+
     },[])
 
     
@@ -81,11 +108,16 @@ export default function Payment () {
                 document.querySelector('#pay_btn').disabled = false;
             }else{
                 if (result.paymentIntent.status === 'succeeded') {
+                    order.paymentInfo = {
+                        id: result.paymentIntent.id,
+                        status: result.paymentIntent.status
+                    }
+                    dispatch(createOrder(order))
                     toast('Payment Success!', {
                         type: 'success',
                         position: toast.POSITION.BOTTOM_CENTER
                     })
-                    navigate('/payment/success')
+                    navigate('/order/success')
                 }else{
                     toast('Please Try again!', {
                         type: 'warning',
