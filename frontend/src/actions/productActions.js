@@ -44,10 +44,14 @@ export const getProduct = id => async (dispatch) => {
     
 }
 export const submitReview = reviewData => async (dispatch) => {
-
+    const config = {
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }
     try {  
         dispatch(submitReviewRequest()) 
-        const { data }  =  await axios.put(`api/v1/review`);
+        const { data }  =  await axios.put(`/api/v1/review`,reviewData, config);
         dispatch(submitReviewSuccess(data))
     } catch (error) {
         //handle error
