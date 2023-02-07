@@ -72,9 +72,7 @@ export default function ProductDetail () {
         }
 
         if(isReviewSubmitted || !product._id) {
-            if(!error) {
-                dispatch(getProduct(id))
-            }
+            dispatch(getProduct(id))
         }
         
        
