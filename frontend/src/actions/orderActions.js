@@ -10,7 +10,7 @@ export const createOrder = order => async (dispatch) => {
     }
 }
 
-export const myOrders = async (dispatch) => {
+export const getMyOrders = async (dispatch) => {
     try {
         dispatch(myOrdersRequest())
         const { data }  = await axios.get(`/api/v1/myorders`);

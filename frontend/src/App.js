@@ -27,6 +27,7 @@ import  { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js';
 import Payment from './components/cart/Payment';
 import OrderSuccess from './components/cart/OrderSucess';
+import MyOrders from './components/order/MyOrders';
 
 function App() {
 
@@ -62,12 +63,14 @@ function App() {
                       <Route path='/shipping' element={<ProtectedRoute><Shipping/></ProtectedRoute> } />
                       <Route path='/order/confirm' element={<ProtectedRoute><ConfirmOrder/></ProtectedRoute> } />
                       <Route path='/order/success' element={<ProtectedRoute><OrderSuccess/></ProtectedRoute> } />
+                      <Route path='/myorders' element={<ProtectedRoute><MyOrders/></ProtectedRoute> } />
                       {
                         stripeApiKey && 
                         
                           <Route path='/payment' element ={<ProtectedRoute><Elements stripe={loadStripe(stripeApiKey)} ><Payment/></Elements></ProtectedRoute>} />
            
                       }
+                      
                   </Routes>
                 </div>
             <Footer/>
