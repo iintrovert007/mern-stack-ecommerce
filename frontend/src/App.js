@@ -28,6 +28,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import Payment from './components/cart/Payment';
 import OrderSuccess from './components/cart/OrderSucess';
 import MyOrders from './components/order/MyOrders';
+import OrderDetail from './components/order/OrderDetail';
 
 function App() {
 
@@ -39,7 +40,7 @@ function App() {
       setStripeApiKey(data.stripeApiKey)
     }
     getStripeApiKey();
-  })
+  },[])
 
   return (
     <Router>
@@ -64,6 +65,7 @@ function App() {
                       <Route path='/order/confirm' element={<ProtectedRoute><ConfirmOrder/></ProtectedRoute> } />
                       <Route path='/order/success' element={<ProtectedRoute><OrderSuccess/></ProtectedRoute> } />
                       <Route path='/myorders' element={<ProtectedRoute><MyOrders/></ProtectedRoute> } />
+                      <Route path='/order/:id' element={<ProtectedRoute><OrderDetail/></ProtectedRoute> } />
                       {
                         stripeApiKey && 
                         

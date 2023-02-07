@@ -48,7 +48,6 @@ export default function MyOrders() {
             ],
             rows: []
         }
-        console.log(data);
         myOrders.forEach(order => {
             console.log(order.totalPrice)
             data.rows.push({
