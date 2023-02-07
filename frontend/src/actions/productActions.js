@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { productsFail, productsSuccess, productsRequest } from '../slices/productsSlice';
-import { productFail, productSuccess, productRequest } from '../slices/productSlice';
+import { productFail, productSuccess, productRequest, submitReviewRequest, submitReviewFail, submitReviewSuccess } from '../slices/productSlice';
 
 export const getProducts = (keyword, price, category, rating, currentPage) => async (dispatch) => {
 
@@ -40,6 +40,18 @@ export const getProduct = id => async (dispatch) => {
     } catch (error) {
         //handle error
         dispatch(productFail(error.response.data.message))
+    }
+    
+}
+export const submitReview = reviewData => async (dispatch) => {
+
+    try {  
+        dispatch(submitReviewRequest()) 
+        const { data }  =  await axios.put(`api/v1/review`);
+        dispatch(submitReviewSuccess(data))
+    } catch (error) {
+        //handle error
+        dispatch(submitReviewFail(error.response.data.message))
     }
     
 }

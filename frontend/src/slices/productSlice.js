@@ -24,13 +24,44 @@ const productSlice = createSlice({
                 loading: false,
                 error:  action.payload
             }
+        },
+        submitReviewRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        submitReviewSuccess(state, action){
+            return {
+                loading: false,
+                isReviewSubmitted: true
+            }
+        },
+        submitReviewFail(state, action){
+            return {
+                loading: false,
+                error:  action.payload
+            }
+        },
+        clearError(state) {
+            return {
+                ...state,
+                error: null
+            }
         }
     }
 });
 
 const { actions, reducer } = productSlice;
 
-export const { productRequest, productSuccess, productFail } = actions;
+export const { 
+    productRequest, 
+    productSuccess, 
+    productFail,
+    submitReviewFail,
+    submitReviewRequest,
+    submitReviewSuccess 
+} = actions;
 
 export default reducer;
 
