@@ -29,6 +29,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import OrderSuccess from './components/cart/OrderSuccess';
 import UserOrders from './components/order/UserOrders';
 import OrderDetail from './components/order/OrderDetail';
+import Dashboard from './components/admin/Dashboard';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("")
@@ -52,6 +53,9 @@ function App() {
                       <Route path='/' element={<Home/>} />
                       <Route path='/search/:keyword' element={<ProductSearch/>} />
                       <Route path='/product/:id' element={<ProductDetail/>} />
+                      {/* User Routes */}
+
+                    
                       <Route path='/login' element={<Login/>} />
                       <Route path='/register' element={<Register/>} />
                       <Route path='/myprofile' element={<ProtectedRoute><Profile/></ProtectedRoute> } />
@@ -59,16 +63,24 @@ function App() {
                       <Route path='/myprofile/update/password' element={<ProtectedRoute><UpdatePassword/></ProtectedRoute> } />
                       <Route path='/password/forgot' element={<ForgotPassword/> } />
                       <Route path='/password/reset/:token' element={<ResetPassword/> } />
+                     
+                       
+                      
                       <Route path='/cart' element={<Cart/> } />
                       <Route path='/shipping' element={<ProtectedRoute><Shipping/></ProtectedRoute> } />
                       <Route path='/order/confirm' element={<ProtectedRoute><ConfirmOrder/></ProtectedRoute> } />
                       <Route path='/order/success' element={<ProtectedRoute><OrderSuccess/></ProtectedRoute> } />
                       <Route path='/orders' element={<ProtectedRoute><UserOrders/></ProtectedRoute> } />
                       <Route path='/order/:id' element={<ProtectedRoute><OrderDetail/></ProtectedRoute> } />
+                      
                       {stripeApiKey && <Route path='/payment' element={<ProtectedRoute><Elements stripe={loadStripe(stripeApiKey)}><Payment/></Elements></ProtectedRoute> } />
 }
                   </Routes>
                 </div>
+                <Routes>
+                    {/* Admin Routes */}
+                    <Route path='/dashboard'  element={<ProtectedRoute isAdmin={true}><Dashboard/></ProtectedRoute> } />
+                </Routes>
             <Footer/>
         </HelmetProvider>
       </div>
