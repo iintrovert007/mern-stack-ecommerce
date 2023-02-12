@@ -42,7 +42,7 @@ exports.newProduct = catchAsyncError(async (req, res, next)=>{
 
 //Get Single Product - api/v1/product/:id
 exports.getSingleProduct = catchAsyncError(async(req, res, next) => {
-    const product = await Product.findById(req.params.id).populate('reviews.user', 'name email');
+    const product = await Product.findById(req.params.id).populate('reviews.user','name email');
 
     if(!product) {
         return next(new ErrorHandler('Product not found', 400));
@@ -109,7 +109,6 @@ exports.createReview = catchAsyncError(async (req, res, next) =>{
     }
 
     const product = await Product.findById(productId);
-    console.log(productId);
    //finding user review exists
     const isReviewed = product.reviews.find(review => {
        return review.user.toString() == req.user.id.toString()
@@ -147,7 +146,7 @@ exports.createReview = catchAsyncError(async (req, res, next) =>{
 
 //Get Reviews - api/v1/reviews?id={productId}
 exports.getReviews = catchAsyncError(async (req, res, next) =>{
-    const product = await Product.findById(req.query.id).populate('user', 'name email');
+    const product = await Product.findById(req.query.id);
 
     res.status(200).json({
         success: true,

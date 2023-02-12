@@ -1,25 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
+
 const orderSlice = createSlice({
     name: 'order',
     initialState: {
-        order: {},
-        loading: false,
-        myOrders: []
+        orderDetail: {},
+        userOrders : [],
+        loading: false
     },
     reducers: {
-        createOrderRequest(state, action){
+        createOrderRequest(state, action) {
             return {
                 ...state,
                 loading: true
             }
         },
-        createOrderSuccess(state, action){
+        createOrderSuccess(state, action) {
             return {
                 ...state,
                 loading: false,
-                order: action.payload
+                orderDetail: action.payload.order
             }
         },
         createOrderFail(state, action) {
@@ -35,24 +36,24 @@ const orderSlice = createSlice({
                 error: null
             }
         },
-        myOrdersRequest(state, action) {
+        userOrdersRequest(state, action) {
             return {
                 ...state,
                 loading: true
             }
         },
-        myOrdersSuccess(state, action) {
+        userOrdersSuccess(state, action) {
             return {
                 ...state,
                 loading: false,
-                myOrders: action.payload
+                userOrders: action.payload.orders
             }
         },
-        myOrdersFail(state, action) {
+        userOrdersFail(state, action) {
             return {
                 ...state,
                 loading: false,
-                error: null
+                error: action.payload
             }
         },
         orderDetailRequest(state, action) {
@@ -65,34 +66,34 @@ const orderSlice = createSlice({
             return {
                 ...state,
                 loading: false,
-                order: action.payload
+                orderDetail: action.payload.order
             }
         },
         orderDetailFail(state, action) {
             return {
                 ...state,
                 loading: false,
-                error: null
+                error: action.payload
             }
-        }
-       
+        },
+
     }
 });
 
 const { actions, reducer } = orderSlice;
 
 export const { 
-    createOrderRequest, 
-    createOrderSuccess,
     createOrderFail,
+    createOrderSuccess,
+    createOrderRequest,
     clearError,
-    myOrdersFail,
-    myOrdersRequest,
-    myOrdersSuccess,
+    userOrdersFail,
+    userOrdersSuccess,
+    userOrdersRequest,
     orderDetailFail,
-    orderDetailRequest,
-    orderDetailSuccess
-} = actions;
+    orderDetailSuccess,
+    orderDetailRequest
+ } = actions;
 
 export default reducer;
 

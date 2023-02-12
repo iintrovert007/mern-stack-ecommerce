@@ -9,12 +9,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
     const [password, setPassword] = useState("")
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const { loading, error, isAuthenticated } = useSelector(state => state.authState)
-
-    const location = useLocation();
-    const redirect = location.search ? '/'+location.search.split('=')[1]:'/';
-
+    const redirect = location.search?'/'+location.search.split('=')[1]:'/';
 
     const  submitHandler = (e) => {
         e.preventDefault();
@@ -22,12 +20,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
     }
 
     useEffect(() => {
-      
         if(isAuthenticated) {
-            // console.log(redirect)
             navigate(redirect)
         }
-        
 
         if(error)  {
             toast(error, {
@@ -37,7 +32,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
             })
             return
         }
-    
     },[error, isAuthenticated, dispatch, navigate])
 
     return (

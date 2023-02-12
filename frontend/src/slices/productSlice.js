@@ -6,7 +6,7 @@ const productSlice = createSlice({
     initialState: {
         loading: false,
         product: {},
-
+        isReviewSubmitted: false
     },
     reducers: {
         productRequest(state, action){
@@ -29,38 +29,43 @@ const productSlice = createSlice({
                 error:  action.payload
             }
         },
-        submitReviewRequest(state, action){
+        createReviewRequest(state, action){
             return {
                 ...state,
-                loading: true,
+                loading: true
             }
         },
-        submitReviewSuccess(state, action){
+        createReviewSuccess(state, action){
             return {
                 ...state,
                 loading: false,
-                isReviewSubmitted: true,
+                isReviewSubmitted: true
             }
         },
-        submitReviewFail(state, action){
+        createReviewFail(state, action){
             return {
                 ...state,
                 loading: false,
                 error:  action.payload
             }
         },
-        clearError(state) {
-            return {
-                ...state,
-                error: null,
-            }
-        },
-        clearIsReviewSubmitted(state, action) {
+        clearReviewSubmitted(state, action) {
             return {
                 ...state,
                 isReviewSubmitted: false
             }
-        }
+        },
+        clearError(state, action) {
+           return{ ...state,
+            error: null
+           }
+        },
+        clearProduct(state, action) {
+            return{ ...state,
+                product : {}
+            }
+         },
+
     }
 });
 
@@ -70,11 +75,12 @@ export const {
     productRequest, 
     productSuccess, 
     productFail,
-    submitReviewFail,
-    submitReviewRequest,
-    submitReviewSuccess,
+    createReviewFail,
+    createReviewRequest,
+    createReviewSuccess,
     clearError,
-    clearIsReviewSubmitted
+    clearReviewSubmitted,
+    clearProduct
 } = actions;
 
 export default reducer;

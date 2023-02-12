@@ -1,32 +1,30 @@
-import { createOrderFail, createOrderRequest, createOrderSuccess, myOrdersFail, myOrdersRequest, myOrdersSuccess, orderDetailFail, orderDetailRequest, orderDetailSuccess } from "../slices/orderSlice";
-import axios from "axios";
-export const createOrder = order => async (dispatch) => {
+import {createOrderFail, createOrderRequest, createOrderSuccess, orderDetailFail, orderDetailRequest, orderDetailSuccess, userOrdersFail, userOrdersRequest, userOrdersSuccess } from '../slices/orderSlice';
+import axios from 'axios';
+
+export const createOrder = order => async(dispatch) => {
     try {
-        dispatch(createOrderRequest())
-        const { data }  = await axios.post(`/api/v1/order/new`,order);
-        dispatch(createOrderSuccess(data))
+       dispatch(createOrderRequest())
+       const {data} = await axios.post(`/api/v1/order/new`, order)
+       dispatch(createOrderSuccess(data))
     } catch (error) {
         dispatch(createOrderFail(error.response.data.message))
     }
 }
-
-export const getMyOrders = async (dispatch) => {
+export const userOrders = async(dispatch) => {
     try {
-        dispatch(myOrdersRequest())
-        const { data }  = await axios.get(`/api/v1/myorders`);
-        dispatch(myOrdersSuccess(data.orders))
+       dispatch(userOrdersRequest())
+       const {data} = await axios.get(`/api/v1/myorders`)
+       dispatch(userOrdersSuccess(data))
     } catch (error) {
-        dispatch(myOrdersFail(error.response.data.message))
+        dispatch(userOrdersFail(error.response.data.message))
     }
 }
-
-export const getOrderDetail = id => async (dispatch) => {
+export const orderDetail = id => async(dispatch) => {
     try {
-        dispatch(orderDetailRequest())
-        const { data }  = await axios.get(`/api/v1/order/${id}`);
-        dispatch(orderDetailSuccess(data.order))
+       dispatch(orderDetailRequest())
+       const {data} = await axios.get(`/api/v1/order/${id}`)
+       dispatch(orderDetailSuccess(data))
     } catch (error) {
         dispatch(orderDetailFail(error.response.data.message))
     }
 }
-

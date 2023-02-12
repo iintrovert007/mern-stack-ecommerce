@@ -100,7 +100,6 @@ export default function Register() {
                         <figure className='avatar mr-3 item-rtl'>
                             <img
                                 src={avatarPreview}
-                                
                                 className='rounded-circle'
                                 alt='Avatar'
                             />

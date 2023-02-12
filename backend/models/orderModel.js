@@ -23,16 +23,6 @@ const orderSchema = mongoose.Schema({
             required: true
         }
     },
-    paymentInfo: {
-        id: {
-            type: String,
-            required: true
-        },
-        status: {
-            type: String,
-            required: true
-        }
-    },
     user: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
@@ -81,6 +71,16 @@ const orderSchema = mongoose.Schema({
         type: Number,
         required: true,
         default: 0.0
+    },
+    paymentInfo: {
+        id: {
+            type: String,
+            required: true
+        },
+        status: {
+            type: String,
+            required: true
+        }
     },
     paidAt: {
         type: Date

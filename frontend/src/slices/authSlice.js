@@ -200,8 +200,8 @@ export const {
     updateProfileFail,
     updateProfileRequest,
     updateProfileSuccess,
-    updatePasswordFail,
     clearUpdateProfile,
+    updatePasswordFail,
     updatePasswordSuccess,
     updatePasswordRequest,
     forgotPasswordFail,
@@ -209,7 +209,8 @@ export const {
     forgotPasswordRequest,
     resetPasswordFail,
     resetPasswordRequest,
-    resetPasswordSuccess
+    resetPasswordSuccess,
+    
  } = actions;
 
 export default reducer;

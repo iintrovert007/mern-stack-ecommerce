@@ -47,7 +47,7 @@ export default function UpdateProfile () {
             toast('Profile updated successfully',{
                 type: 'success',
                 position: toast.POSITION.BOTTOM_CENTER,
-                onOpen: ()=> { dispatch(clearUpdateProfile()) }
+                onOpen: () => dispatch(clearUpdateProfile())
             })
             return;
         }
