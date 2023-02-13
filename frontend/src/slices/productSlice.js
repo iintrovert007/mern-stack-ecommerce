@@ -8,6 +8,7 @@ const productSlice = createSlice({
         product: {},
         isReviewSubmitted: false,
         isProductCreated: false,
+        isProductDeleted: false
     },
     reducers: {
         productRequest(state, action){
@@ -69,11 +70,13 @@ const productSlice = createSlice({
         // reducers for admin creating new product
         newProductRequest(state, action){
             return {
+                ...state,
                 loading: true
             }
         },
         newProductSuccess(state, action){
             return {
+                ...state,
                 loading: false,
                 //  check postman "Create new product" request getting "product" in response
                 product: action.payload.product,
@@ -82,6 +85,7 @@ const productSlice = createSlice({
         },
         newProductFail(state, action){
             return {
+                ...state,
                 loading: false,
                 error:  action.payload
             }
@@ -92,6 +96,32 @@ const productSlice = createSlice({
                 isProductCreated: false
             }
         },
+         // reducers for admin deleting  product
+         deleteProductRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        deleteProductSuccess(state, action){
+            return {
+                loading: false,
+                isProductDeleted: true,
+            }
+        },
+        deleteProductFail(state, action){
+            return {
+                loading: false,
+                error:  action.payload
+            }
+        },
+        clearProductDeleted(state, action) {
+            return {
+                ...state,
+                isProductDeleted: false
+            }
+        },
+      
 
     }
 });
@@ -111,7 +141,11 @@ export const {
     newProductRequest,
     newProductFail,
     newProductSuccess,
-    clearProductCreated
+    clearProductCreated,
+    deleteProductFail,
+    deleteProductRequest,
+    deleteProductSuccess,
+    clearProductDeleted
 } = actions;
 
 export default reducer;

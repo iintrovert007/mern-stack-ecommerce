@@ -5,13 +5,13 @@ import {Link} from 'react-router-dom'
 import Loader from '../layouts/Loader';
 import SideBar from './Sidebar';
 import {MDBDataTable} from 'mdbreact'
-import { getAdminProducts } from '../../actions/productActions';
+import { getAdminProducts, deleteProduct } from '../../actions/productActions';
 import { toast } from 'react-toastify';
-import { clearError } from '../../slices/productSlice';
+import { clearError ,clearProductDeleted} from '../../slices/productSlice';
 
 export default function ProductList() {
     const {products=[],loading=true, error } = useSelector(state => state.productsState)
-    
+    const {error:productError,  isProductDeleted} = useSelector(state => state.productState)
 
     // copied & modified from UserOrder "setOrders" code  for seeding Datatable
     const setProducts = () => {
@@ -60,7 +60,7 @@ export default function ProductList() {
                         <Link to={`admin/product/${product._id}`} className="btn btn-primary" >
                             <i className='fa fa-pencil'></i>
                         </Link>
-                        <Button className="btn btn-danger py-1 px-2 ml-2" >
+                        <Button onClick={(e)=>deleteHandler(e, product._id)} className="btn btn-danger py-1 px-2 ml-2" >
                             <i className='fa fa-trash'></i>
                         </Button>
                     </Fragment>
@@ -73,17 +73,28 @@ export default function ProductList() {
     }
 
     const dispatch = useDispatch();
+    const deleteHandler =  (e, id) => {
+        e.target.disabled=true; 
+        dispatch(deleteProduct(id))
+    }
     useEffect(() => {
-        if(error)  {
-            toast(error, {
+        if(error || productError)  {
+            toast(error || productError, {
                 position: toast.POSITION.BOTTOM_CENTER,
                 type: 'error',
                 onOpen: ()=> { dispatch(clearError()) }
             })
             return
         }
+        if(isProductDeleted) {
+            toast('Product Deleted SuccessFully', {
+                position: toast.POSITION.BOTTOM_CENTER,
+                type: 'success',
+                onOpen: ()=> { dispatch(clearProductDeleted()) }
+            })
+        }
         dispatch(getAdminProducts) 
-    },[dispatch, error])
+    },[dispatch, error, isProductDeleted])
 
     return (
         <div className="row">
