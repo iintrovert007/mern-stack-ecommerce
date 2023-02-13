@@ -1,8 +1,24 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom'
-import MetaData from '../layouts/MetaData';
+import { getAdminProducts } from '../../actions/productActions';
 import SideBar from './Sidebar';
 
 export default function Dashboard() {
+    const {products=[] } = useSelector(state => state.productsState)
+    const dispatch = useDispatch();
+    let outOfStock = 0;
+    useEffect(() => {
+        dispatch(getAdminProducts) 
+    },[dispatch])
+
+    if(products.length>0) {
+        products.forEach(product => {
+            //find a product with 0 num of stock and add it 
+            if(product.stock===0) outOfStock=outOfStock+1;
+        });
+    }
+
     return (
         <div className="row">
             <div className='col-12 col-md-2'>
@@ -25,7 +41,8 @@ export default function Dashboard() {
                     <div className="col-xl-3 col-sm-6 mb-3">
                         <div className="card text-white bg-success o-hidden h-100">
                             <div className="card-body">
-                                <div className="text-center card-font-size">Products<br /> <b>23</b></div>
+                                {/* No of Products */}
+                                <div className="text-center card-font-size">Products<br /> <b>{products.length}</b></div>
                             </div>
                             <Link className="card-footer text-white clearfix small z-1" to="/admin/products">
                                 <span className="float-left">View Details</span>
@@ -70,7 +87,8 @@ export default function Dashboard() {
                     <div className="col-xl-3 col-sm-6 mb-3">
                         <div className="card text-white bg-warning o-hidden h-100">
                             <div className="card-body">
-                                <div className="text-center card-font-size">Out of Stock<br /> <b>10</b></div>
+                                {/* Out of stock */}
+                                <div className="text-center card-font-size">Out of Stock<br /> <b>{outOfStock}</b></div>
                             </div>
                         </div>
                     </div>
