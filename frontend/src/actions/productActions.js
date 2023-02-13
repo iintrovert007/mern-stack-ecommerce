@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { productsFail, productsSuccess, productsRequest, adminProductsRequest, adminProductsSuccess, adminProductsFail } from '../slices/productsSlice';
-import { productFail, productSuccess, productRequest, createReviewRequest, createReviewSuccess, createReviewFail, newProductRequest, newProductSuccess, newProductFail, deleteProductRequest, deleteProductSuccess, deleteProductFail } from '../slices/productSlice';
+import { productFail, productSuccess, productRequest, createReviewRequest, createReviewSuccess, createReviewFail, newProductRequest, newProductSuccess, newProductFail, deleteProductRequest, deleteProductSuccess, deleteProductFail, updateProductFail, updateProductRequest, updateProductSuccess } from '../slices/productSlice';
+import { updatePasswordRequest, updatePasswordSuccess } from '../slices/authSlice';
 
 export const getProducts = (keyword, price, category, rating, currentPage) => async (dispatch) => {
 
@@ -95,6 +96,19 @@ export const deleteProduct = id => async (dispatch) => {
     } catch (error) {
         //handle error
         dispatch(deleteProductFail(error.response.data.message))
+    }
+    
+}
+
+export const  updateProduct = (id, productData) => async (dispatch) => {
+
+    try {  
+        dispatch(updateProductRequest()) 
+        const { data }  =  await axios.put(`/api/v1/admin/product/${id}`,productData);
+        dispatch(updateProductSuccess(data))
+    } catch (error) {
+        //handle error
+        dispatch(updateProductFail(error.response.data.message))
     }
     
 }

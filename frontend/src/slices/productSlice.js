@@ -8,7 +8,8 @@ const productSlice = createSlice({
         product: {},
         isReviewSubmitted: false,
         isProductCreated: false,
-        isProductDeleted: false
+        isProductDeleted: false,
+        isProductUpdated: false
     },
     reducers: {
         productRequest(state, action){
@@ -97,7 +98,7 @@ const productSlice = createSlice({
             }
         },
          // reducers for admin deleting  product
-         deleteProductRequest(state, action){
+        deleteProductRequest(state, action){
             return {
                 ...state,
                 loading: true
@@ -121,8 +122,34 @@ const productSlice = createSlice({
                 isProductDeleted: false
             }
         },
-      
-
+        updateProductRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        updateProductSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                //  check postman "Create new product" request getting "product" in response
+                product: action.payload.product,
+                isProductUpdated: true,
+            }
+        },
+        updateProductFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload
+            }
+        },
+        clearProductUpdated(state, action) {
+            return {
+                ...state,
+                isProductUpdated: false
+            }
+        },
     }
 });
 
@@ -145,7 +172,11 @@ export const {
     deleteProductFail,
     deleteProductRequest,
     deleteProductSuccess,
-    clearProductDeleted
+    clearProductDeleted,
+    updateProductFail,
+    updateProductRequest,
+    updateProductSuccess,
+    clearProductUpdated
 } = actions;
 
 export default reducer;

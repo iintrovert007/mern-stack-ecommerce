@@ -67,6 +67,22 @@ exports.getSingleProduct = catchAsyncError(async(req, res, next) => {
 //Update Product - api/v1/product/:id
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
     let product = await Product.findById(req.params.id);
+    let images = [];
+    console.log(req.body.imageCleared);
+    if(req.body.imageCleared === 'false') {
+        images = product.images;
+        console.log(images, 'existing')
+    }
+   
+
+    if(req.files.length > 0 ) 
+        req.files.forEach(file => {
+            let url =`${process.env.BACKEND_URL}/uploads/product/${file.originalname}`;
+            images.push({image: url})
+        });
+
+    console.log(images)
+    req.body.images = images;
 
     
     if(!product) {
@@ -91,7 +107,7 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
 //Delete Product - api/v1/product/:id
 exports.deleteProduct = catchAsyncError(async (req, res, next) =>{
     const product = await Product.findById(req.params.id);
-    
+
     if(!product) {
         return res.status(404).json({
             success: false,

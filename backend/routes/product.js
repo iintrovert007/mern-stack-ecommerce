@@ -16,8 +16,7 @@ const {isAuthenticatedUser, authorizeRoles } = require('../middlewares/authentic
 router.route('/products').get( getProducts);
 router.route('/product/:id')
                             .get(getSingleProduct)
-                            .put(updateProduct);
-                            //removing delete product as user route
+                            //removing delete & update product as user route
                            
 router.route('/review').put(isAuthenticatedUser, createReview)
                        .delete(deleteReview)
@@ -27,6 +26,7 @@ router.route('/reviews').get(getReviews)
 router.route('/admin/product/new').post(isAuthenticatedUser, authorizeRoles('admin'), upload.array('images'), newProduct);
 router.route('/admin/products').get(isAuthenticatedUser, authorizeRoles('admin'), getAdminProducts);
 router.route('/admin/products').get(isAuthenticatedUser, authorizeRoles('admin'), getAdminProducts);
-// adding  delete product  as admin route
-router.route('/admin/product/:id').delete(isAuthenticatedUser, authorizeRoles('admin'),  deleteProduct);
+// adding update delete product  as admin route
+router.route('/admin/product/:id').delete(isAuthenticatedUser, authorizeRoles('admin'),  deleteProduct)
+                                .put(isAuthenticatedUser, authorizeRoles('admin'),  upload.array('images'), updateProduct);
 module.exports = router;
