@@ -55,7 +55,10 @@ export const {
     productsFail,
     adminProductsFail,
     adminProductsRequest,
-    adminProductsSuccess 
+    adminProductsSuccess,
+    adminCreateProductFail,
+    adminCreateProductRequest,
+    adminCreateProductSuccess 
 } = actions;
 
 export default reducer;

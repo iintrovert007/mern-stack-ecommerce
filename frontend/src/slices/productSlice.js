@@ -6,7 +6,8 @@ const productSlice = createSlice({
     initialState: {
         loading: false,
         product: {},
-        isReviewSubmitted: false
+        isReviewSubmitted: false,
+        isProductCreated: false,
     },
     reducers: {
         productRequest(state, action){
@@ -64,7 +65,33 @@ const productSlice = createSlice({
             return{ ...state,
                 product : {}
             }
-         },
+        },
+        // reducers for admin creating new product
+        newProductRequest(state, action){
+            return {
+                loading: true
+            }
+        },
+        newProductSuccess(state, action){
+            return {
+                loading: false,
+                //  check postman "Create new product" request getting "product" in response
+                product: action.payload.product,
+                isProductCreated: true,
+            }
+        },
+        newProductFail(state, action){
+            return {
+                loading: false,
+                error:  action.payload
+            }
+        },
+        clearProductCreated(state, action) {
+            return {
+                ...state,
+                isProductCreated: false
+            }
+        },
 
     }
 });
@@ -80,7 +107,11 @@ export const {
     createReviewSuccess,
     clearError,
     clearReviewSubmitted,
-    clearProduct
+    clearProduct,
+    newProductRequest,
+    newProductFail,
+    newProductSuccess,
+    clearProductCreated
 } = actions;
 
 export default reducer;
