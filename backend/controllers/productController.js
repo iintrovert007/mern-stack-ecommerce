@@ -81,7 +81,6 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
             images.push({image: url})
         });
 
-    console.log(images)
     req.body.images = images;
 
     
