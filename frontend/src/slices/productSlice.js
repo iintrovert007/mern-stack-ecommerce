@@ -9,7 +9,9 @@ const productSlice = createSlice({
         isReviewSubmitted: false,
         isProductCreated: false,
         isProductDeleted: false,
-        isProductUpdated: false
+        isProductUpdated: false,
+        isReviewDeleted: false,
+        reviews: []
     },
     reducers: {
         productRequest(state, action){
@@ -68,7 +70,6 @@ const productSlice = createSlice({
                 product : {}
             }
         },
-        // reducers for admin creating new product
         newProductRequest(state, action){
             return {
                 ...state,
@@ -79,16 +80,16 @@ const productSlice = createSlice({
             return {
                 ...state,
                 loading: false,
-                //  check postman "Create new product" request getting "product" in response
                 product: action.payload.product,
-                isProductCreated: true,
+                isProductCreated: true
             }
         },
         newProductFail(state, action){
             return {
                 ...state,
                 loading: false,
-                error:  action.payload
+                error:  action.payload,
+                isProductCreated: false
             }
         },
         clearProductCreated(state, action) {
@@ -97,7 +98,34 @@ const productSlice = createSlice({
                 isProductCreated: false
             }
         },
-         // reducers for admin deleting  product
+         newProductRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        newProductSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                product: action.payload.product,
+                isProductCreated: true
+            }
+        },
+        newProductFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload,
+                isProductCreated: false
+            }
+        },
+        clearProductCreated(state, action) {
+            return {
+                ...state,
+                isProductCreated: false
+            }
+        },
         deleteProductRequest(state, action){
             return {
                 ...state,
@@ -106,14 +134,16 @@ const productSlice = createSlice({
         },
         deleteProductSuccess(state, action){
             return {
+                ...state,
                 loading: false,
-                isProductDeleted: true,
+                isProductDeleted: true
             }
         },
         deleteProductFail(state, action){
             return {
+                ...state,
                 loading: false,
-                error:  action.payload
+                error:  action.payload,
             }
         },
         clearProductDeleted(state, action) {
@@ -122,6 +152,7 @@ const productSlice = createSlice({
                 isProductDeleted: false
             }
         },
+
         updateProductRequest(state, action){
             return {
                 ...state,
@@ -132,16 +163,15 @@ const productSlice = createSlice({
             return {
                 ...state,
                 loading: false,
-                //  check postman "Create new product" request getting "product" in response
                 product: action.payload.product,
-                isProductUpdated: true,
+                isProductUpdated: true
             }
         },
         updateProductFail(state, action){
             return {
                 ...state,
                 loading: false,
-                error:  action.payload
+                error:  action.payload,
             }
         },
         clearProductUpdated(state, action) {
@@ -150,6 +180,54 @@ const productSlice = createSlice({
                 isProductUpdated: false
             }
         },
+
+        reviewsRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        reviewsSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                reviews: action.payload.reviews
+            }
+        },
+        reviewsFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload
+            }
+        },
+        deleteReviewRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        deleteReviewSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                isReviewDeleted: true
+            }
+        },
+        deleteReviewFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload,
+            }
+        },
+        clearReviewDeleted(state, action) {
+            return {
+                ...state,
+                isReviewDeleted: false
+            }
+        },
+
     }
 });
 
@@ -165,9 +243,9 @@ export const {
     clearError,
     clearReviewSubmitted,
     clearProduct,
-    newProductRequest,
     newProductFail,
     newProductSuccess,
+    newProductRequest,
     clearProductCreated,
     deleteProductFail,
     deleteProductRequest,
@@ -176,7 +254,14 @@ export const {
     updateProductFail,
     updateProductRequest,
     updateProductSuccess,
-    clearProductUpdated
+    clearProductUpdated,
+    reviewsRequest,
+    reviewsFail,
+    reviewsSuccess,
+    deleteReviewFail,
+    deleteReviewRequest,
+    deleteReviewSuccess,
+    clearReviewDeleted
 } = actions;
 
 export default reducer;

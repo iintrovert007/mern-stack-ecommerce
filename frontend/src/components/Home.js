@@ -41,6 +41,9 @@ export  default function Home(){
                             ))}
                         
                         </div>
+
+
+                        
                     </section>
                     {productsCount > 0 && productsCount > resPerPage?
                     <div className="d-flex justify-content-center mt-5">

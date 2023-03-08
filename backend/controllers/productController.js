@@ -5,7 +5,7 @@ const APIFeatures = require('../utils/apiFeatures');
 
 //Get Products - /api/v1/products
 exports.getProducts = catchAsyncError(async (req, res, next)=>{
-    const resPerPage = 3;
+    const resPerPage = 8;
     
     let buildQuery = () => {
         return new APIFeatures(Product.find(), req.query).search().filter()
@@ -31,18 +31,22 @@ exports.getProducts = catchAsyncError(async (req, res, next)=>{
 
 //Create Product - /api/v1/product/new
 exports.newProduct = catchAsyncError(async (req, res, next)=>{
-    let images = [];
-    if(req.files.length > 0 ) 
-        req.files.forEach(file => {
-            let url =`${process.env.BACKEND_URL}/uploads/product/${file.originalname}`;
-            images.push({image: url})
-        });
+    let images = []
+    let BASE_URL = process.env.BACKEND_URL;
+    if(process.env.NODE_ENV === "production"){
+        BASE_URL = `${req.protocol}://${req.get('host')}`
+    }
+    
+    if(req.files.length > 0) {
+        req.files.forEach( file => {
+            let url = `${BASE_URL}/uploads/product/${file.originalname}`;
+            images.push({ image: url })
+        })
+    }
 
     req.body.images = images;
 
     req.body.user = req.user.id;
-
-
     const product = await Product.create(req.body);
     res.status(201).json({
         success: true,
@@ -67,22 +71,28 @@ exports.getSingleProduct = catchAsyncError(async(req, res, next) => {
 //Update Product - api/v1/product/:id
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
     let product = await Product.findById(req.params.id);
-    let images = [];
-    console.log(req.body.imageCleared);
-    if(req.body.imageCleared === 'false') {
-        images = product.images;
-        console.log(images, 'existing')
-    }
-   
 
-    if(req.files.length > 0 ) 
-        req.files.forEach(file => {
-            let url =`${process.env.BACKEND_URL}/uploads/product/${file.originalname}`;
-            images.push({image: url})
-        });
+    //uploading images
+    let images = []
+
+    //if images not cleared we keep existing images
+    if(req.body.imagesCleared === 'false' ) {
+        images = product.images;
+    }
+    let BASE_URL = process.env.BACKEND_URL;
+    if(process.env.NODE_ENV === "production"){
+        BASE_URL = `${req.protocol}://${req.get('host')}`
+    }
+
+    if(req.files.length > 0) {
+        req.files.forEach( file => {
+            let url = `${BASE_URL}/uploads/product/${file.originalname}`;
+            images.push({ image: url })
+        })
+    }
+
 
     req.body.images = images;
-
     
     if(!product) {
         return res.status(404).json({
@@ -171,7 +181,7 @@ exports.createReview = catchAsyncError(async (req, res, next) =>{
 
 //Get Reviews - api/v1/reviews?id={productId}
 exports.getReviews = catchAsyncError(async (req, res, next) =>{
-    const product = await Product.findById(req.query.id);
+    const product = await Product.findById(req.query.id).populate('reviews.user','name email');
 
     res.status(200).json({
         success: true,
@@ -209,14 +219,11 @@ exports.deleteReview = catchAsyncError(async (req, res, next) =>{
 
 });
 
-
-//Get Admin Products - /api/v1/admin/products
-exports.getAdminProducts = catchAsyncError(async (req, res, next)=>{
-    
+// get admin products  - api/v1/admin/products
+exports.getAdminProducts = catchAsyncError(async (req, res, next) =>{
     const products = await Product.find();
-
-    res.status(200).json({
-        success : true,
+    res.status(200).send({
+        success: true,
         products
     })
-})
+});

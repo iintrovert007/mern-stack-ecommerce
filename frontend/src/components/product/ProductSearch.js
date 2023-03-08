@@ -62,7 +62,9 @@ export  default function ProductSearch(){
                     <section id="products" className="container mt-5">
                         <div className="row">
                             <div className="col-6 col-md-3 mb-5 mt-5">
-                                {/* Price Filter */}
+
+                                <h4>Welcome To Our Shop</h4>
+                                {/* Price Filter
                                 <div className="px-5" onMouseUp={()=>setPriceChanged(price)}>
                                     <Slider
                                         range={true}
@@ -88,7 +90,7 @@ export  default function ProductSearch(){
                                             }
                                         }
                                     />
-                                </div>
+                                </div> */}
                                 <hr className="my-5" />        
                                 {/* Category Filter */}
                                 <div className="mt-5">

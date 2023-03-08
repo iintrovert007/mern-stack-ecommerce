@@ -21,7 +21,7 @@ export default function Header () {
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
             <Link to="/">
-              <img width="150px" alt='JVLcart Logo' src="/images/logo.png" />
+            <h4>Home</h4>
             </Link>
             </div>
         </div>
@@ -41,8 +41,7 @@ export default function Header () {
                     <span>{user.name}</span>
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                      {/* adding menu to access dashboard page if user role is admin */}
-                      {user.role=='admin'&&<Dropdown.Item onClick={() => {navigate('/dashboard')}} className='text-dark'>Dashboard</Dropdown.Item>}
+                      { user.role === 'admin' && <Dropdown.Item onClick={() => {navigate('admin/dashboard')}} className='text-dark'>Dashboard</Dropdown.Item> }
                       <Dropdown.Item onClick={() => {navigate('/myprofile')}} className='text-dark'>Profile</Dropdown.Item>
                       <Dropdown.Item onClick={() => {navigate('/orders')}} className='text-dark'>Orders</Dropdown.Item>
                       <Dropdown.Item onClick={logoutHandler} className='text-danger'>Logout</Dropdown.Item>

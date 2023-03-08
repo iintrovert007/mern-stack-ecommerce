@@ -87,7 +87,7 @@ export default function ProductDetail () {
                 <div className="row f-flex justify-content-around">
                     <div className="col-12 col-lg-5 img-fluid" id="product_image">
                         <Carousel pause="hover">
-                            {product.images && product.images.map(image =>
+                            {product.images && product.images.length > 0 && product.images.map(image =>
                                 <Carousel.Item key={image._id}>
                                     <img className="d-block w-100"  src={image.image} alt={product.name} height="500" width="500" />
                                 </Carousel.Item>
@@ -108,7 +108,7 @@ export default function ProductDetail () {
 
                     <hr/>
 
-                    <p id="product_price">${product.price}</p>
+                    <p id="product_price">Rs{product.price}</p>
                     <div className="stockCounter d-inline">
                         <span className="btn btn-danger minus" onClick={decreaseQty} >-</span>
 
@@ -118,7 +118,13 @@ export default function ProductDetail () {
                     </div>
                     <button type="button" id="cart_btn" 
                      disabled={product.stock==0?true:false} 
-                     onClick={()=>dispatch(addCartItem(product._id, quantity))}
+                     onClick={()=>{
+                        dispatch(addCartItem(product._id, quantity))
+                        toast('Cart Item Added!',{
+                            type: 'success',
+                            position: toast.POSITION.BOTTOM_CENTER
+                        })
+                    }}
                      className="btn btn-primary d-inline ml-4"
                      >Add to Cart</button>
 

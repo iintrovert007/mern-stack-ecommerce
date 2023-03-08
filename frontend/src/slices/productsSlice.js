@@ -26,7 +26,6 @@ const productsSlice = createSlice({
                 error:  action.payload
             }
         },
-        // reducers for getting admin products
         adminProductsRequest(state, action){
             return {
                 loading: true
@@ -43,6 +42,12 @@ const productsSlice = createSlice({
                 loading: false,
                 error:  action.payload
             }
+        },
+        clearError(state, action){
+            return {
+                ...state,
+                error:  null
+            }
         }
     }
 });
@@ -55,10 +60,8 @@ export const {
     productsFail,
     adminProductsFail,
     adminProductsRequest,
-    adminProductsSuccess,
-    adminCreateProductFail,
-    adminCreateProductRequest,
-    adminCreateProductSuccess 
+    adminProductsSuccess
+
 } = actions;
 
 export default reducer;

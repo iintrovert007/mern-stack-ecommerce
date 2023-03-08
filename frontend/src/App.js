@@ -35,6 +35,9 @@ import NewProduct from './components/admin/NewProduct';
 import UpdateProduct from './components/admin/UpdateProduct';
 import OrderList from './components/admin/OrderList';
 import UpdateOrder from './components/admin/UpdateOrder';
+import UserList from './components/admin/UserList';
+import UpdateUser from './components/admin/UpdateUser';
+import ReviewList from './components/admin/ReviewList';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("")
@@ -58,9 +61,6 @@ function App() {
                       <Route path='/' element={<Home/>} />
                       <Route path='/search/:keyword' element={<ProductSearch/>} />
                       <Route path='/product/:id' element={<ProductDetail/>} />
-                      {/* User Routes */}
-
-                    
                       <Route path='/login' element={<Login/>} />
                       <Route path='/register' element={<Register/>} />
                       <Route path='/myprofile' element={<ProtectedRoute><Profile/></ProtectedRoute> } />
@@ -68,28 +68,27 @@ function App() {
                       <Route path='/myprofile/update/password' element={<ProtectedRoute><UpdatePassword/></ProtectedRoute> } />
                       <Route path='/password/forgot' element={<ForgotPassword/> } />
                       <Route path='/password/reset/:token' element={<ResetPassword/> } />
-                     
-                       
-                      
                       <Route path='/cart' element={<Cart/> } />
                       <Route path='/shipping' element={<ProtectedRoute><Shipping/></ProtectedRoute> } />
                       <Route path='/order/confirm' element={<ProtectedRoute><ConfirmOrder/></ProtectedRoute> } />
                       <Route path='/order/success' element={<ProtectedRoute><OrderSuccess/></ProtectedRoute> } />
                       <Route path='/orders' element={<ProtectedRoute><UserOrders/></ProtectedRoute> } />
                       <Route path='/order/:id' element={<ProtectedRoute><OrderDetail/></ProtectedRoute> } />
-                      
                       {stripeApiKey && <Route path='/payment' element={<ProtectedRoute><Elements stripe={loadStripe(stripeApiKey)}><Payment/></Elements></ProtectedRoute> } />
-}
+} 
                   </Routes>
                 </div>
+                {/* Admin Routes */}
                 <Routes>
-                    {/* Admin Routes */}
-                    <Route path='/dashboard'  element={<ProtectedRoute isAdmin={true}><Dashboard/></ProtectedRoute> } />
-                    <Route path='/admin/products'  element={<ProtectedRoute isAdmin={true}><ProductList/></ProtectedRoute> } />
-                    <Route path='/admin/products/create'  element={<ProtectedRoute isAdmin={true}><NewProduct/></ProtectedRoute> } />
-                    <Route path='/admin/product/:id'  element={<ProtectedRoute isAdmin={true}><UpdateProduct/></ProtectedRoute> } />
-                    <Route path='/admin/orders'  element={<ProtectedRoute isAdmin={true}><OrderList/></ProtectedRoute> } />
-                    <Route path='/admin/order/:id'  element={<ProtectedRoute isAdmin={true}><UpdateOrder/></ProtectedRoute> } />
+                  <Route path='/admin/dashboard' element={ <ProtectedRoute isAdmin={true}><Dashboard/></ProtectedRoute> } />
+                  <Route path='/admin/products' element={ <ProtectedRoute isAdmin={true}><ProductList/></ProtectedRoute> } />
+                  <Route path='/admin/products/create' element={ <ProtectedRoute isAdmin={true}><NewProduct/></ProtectedRoute> } />
+                  <Route path='/admin/product/:id' element={ <ProtectedRoute isAdmin={true}><UpdateProduct/></ProtectedRoute> } />
+                  <Route path='/admin/orders' element={ <ProtectedRoute isAdmin={true}><OrderList/></ProtectedRoute> } />
+                  <Route path='/admin/order/:id' element={ <ProtectedRoute isAdmin={true}><UpdateOrder/></ProtectedRoute> } />
+                  <Route path='/admin/users' element={ <ProtectedRoute isAdmin={true}><UserList/></ProtectedRoute> } />
+                  <Route path='/admin/user/:id' element={ <ProtectedRoute isAdmin={true}><UpdateUser/></ProtectedRoute> } />
+                  <Route path='/admin/reviews' element={ <ProtectedRoute isAdmin={true}><ReviewList/></ProtectedRoute> } />
                 </Routes>
             <Footer/>
         </HelmetProvider>

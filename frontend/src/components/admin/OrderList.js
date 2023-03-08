@@ -1,79 +1,78 @@
-import { Fragment, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import {Link} from 'react-router-dom'
+import { Fragment, useEffect } from "react"
+import { Button } from "react-bootstrap"
+import { useDispatch, useSelector } from "react-redux"
+import { Link } from "react-router-dom"
+import { deleteOrder, adminOrders as adminOrdersAction } from "../../actions/orderActions"
+import { clearError, clearOrderDeleted } from "../../slices/orderSlice"
 import Loader from '../layouts/Loader';
-import SideBar from './Sidebar';
-import {MDBDataTable} from 'mdbreact'
-import { adminOrders as adminOrdersAction, deleteOrder } from '../../actions/orderActions';
-import { toast } from 'react-toastify';
-import { clearError ,clearOrderDeleted} from '../../slices/orderSlice';
+import { MDBDataTable} from 'mdbreact';
+import {toast } from 'react-toastify'
+import Sidebar from "./Sidebar"
 
 export default function OrderList() {
-    const {adminOrders=[],loading=true, error,  isOrderDeleted } = useSelector(state => state.orderState)
-    
+    const { adminOrders = [], loading = true, error, isOrderDeleted }  = useSelector(state => state.orderState)
+
+    const dispatch = useDispatch();
+
     const setOrders = () => {
         const data = {
-            columns: [
+            columns : [
                 {
-                    label: "ID",
+                    label: 'ID',
                     field: 'id',
-                    sort: "asc"
+                    sort: 'asc'
                 },
                 {
-                    label: "No of Items",
-                    field: 'numOfItems',
-                    sort: "asc"
+                    label: 'Number of Items',
+                    field: 'noOfItems',
+                    sort: 'asc'
                 },
                 {
-                    label: "Amount",
+                    label: 'Amount',
                     field: 'amount',
-                    sort: "asc"
+                    sort: 'asc'
                 },
                 {
-                    label: "Status",
+                    label: 'Status',
                     field: 'status',
-                    sort: "asc"
+                    sort: 'asc'
                 },
                 {
-                    label: "Actions",
+                    label: 'Actions',
                     field: 'actions',
-                    sort: "asc"
+                    sort: 'asc'
                 }
             ],
-            rows:[]
+            rows : []
         }
 
-        adminOrders.forEach(order => {
+        adminOrders.forEach( order => {
             data.rows.push({
-                id:  order._id,
-                numOfItems: order.orderItems.length,
-                amount: `$${order.totalPrice}`,
-                status:<p style={{color: order.orderStatus.includes( 'Delivered' ) ? 'green' : 'red'}}>{order.orderStatus}</p>,
-                actions:(
+                id: order._id,
+                noOfItems: order.orderItems.length,
+                amount : `Rs${order.totalPrice}`,
+                status: <p style={{color: order.orderStatus.includes('Processing') ? 'red' : 'green'}}>{order.orderStatus}</p> ,
+                actions: (
                     <Fragment>
-                        <Link to={`/admin/order/${order._id}`} className="btn btn-primary" >
-                            <i className='fa fa-pencil'></i>
-                        </Link>
-                        <Button onClick={(e)=>deleteHandler(e, order._id)} className="btn btn-danger py-1 px-2 ml-2" >
-                            <i className='fa fa-trash'></i>
+                        <Link to={`/admin/order/${order._id}`} className="btn btn-primary"> <i className="fa fa-pencil"></i></Link>
+                        <Button onClick={e => deleteHandler(e, order._id)} className="btn btn-danger py-1 px-2 ml-2">
+                            <i className="fa fa-trash"></i>
                         </Button>
                     </Fragment>
                 )
             })
         })
 
-
-        return  data;
+        return data;
     }
 
-    const dispatch = useDispatch();
-    const deleteHandler =  (e, id) => {
-        e.target.disabled=true; 
+    const deleteHandler = (e, id) => {
+        e.target.disabled = true;
         dispatch(deleteOrder(id))
     }
+
     useEffect(() => {
-        if(error)  {
+        if(error) {
             toast(error, {
                 position: toast.POSITION.BOTTOM_CENTER,
                 type: 'error',
@@ -82,34 +81,37 @@ export default function OrderList() {
             return
         }
         if(isOrderDeleted) {
-            toast('Order Deleted SuccessFully', {
-                position: toast.POSITION.BOTTOM_CENTER,
+            toast('Order Deleted Succesfully!',{
                 type: 'success',
-                onOpen: ()=> { dispatch(clearOrderDeleted()) }
+                position: toast.POSITION.BOTTOM_CENTER,
+                onOpen: () => dispatch(clearOrderDeleted())
             })
+            return;
         }
-        dispatch(adminOrdersAction) 
+
+        dispatch(adminOrdersAction)
     },[dispatch, error, isOrderDeleted])
+
 
     return (
         <div className="row">
-            <div className='col-12 col-md-2'>
-                <SideBar/>
-            </div>
-            <div className="col-12 col-md-10">
-                <h1 className="my-4">Orders</h1>
-                <Fragment>
-                    { loading ? <Loader/>:
+        <div className="col-12 col-md-2">
+                <Sidebar/>
+        </div>
+        <div className="col-12 col-md-10">
+            <h1 className="my-4">Order List</h1>
+            <Fragment>
+                {loading ? <Loader/> : 
                     <MDBDataTable
-                        className='px-3'
+                        data={setOrders()}
                         bordered
                         striped
                         hover
-                        data={setOrders()}
+                        className="px-3"
                     />
-                    }
-                </Fragment>
-            </div>
+                }
+            </Fragment>
         </div>
+    </div>
     )
 }
